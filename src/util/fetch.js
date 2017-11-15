@@ -12,7 +12,7 @@ export default function fetch (options) {
     let instance = axios.create({
       timeout: 2000,
       headers: {
-        'authorization': localStorage.getItem('bu_authorization'),
+        'authorization': localStorage.getItem('V_accessToken'),
         'Content-Type': 'application/json'
       }
     })
@@ -47,8 +47,8 @@ export default function fetch (options) {
 
       if (returnCode === 401) {
         // 删除用户token
-        localStorage.removeItem('bu_authorization')
-        localStorage.removeItem('bu_userId')
+        localStorage.removeItem('V_accessToken')
+        localStorage.removeItem('V_userId')
 
         MessageBox.alert({
           title: '提示',

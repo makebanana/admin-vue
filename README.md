@@ -1,6 +1,6 @@
 # backend-vue
 
-> 'backend by vue''
+> '从零开始编写一个vue 管理后台''
 
 ## Build Setup
 
