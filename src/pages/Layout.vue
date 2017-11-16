@@ -11,10 +11,10 @@
     </el-aside>
     <el-container>
       <el-header class="header-wrap">
-        <el-dropdown>
+        <el-dropdown @command="handleHeaderCommand">
           <i class="el-icon-setting" style="margin-right: 15px"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click="handleLogout">退出</el-dropdown-item>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item command="a">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -70,10 +70,10 @@ export default {
     // 首次加载如何判断侧边栏展开命中是个问题，问题前提是登录之后回到最初访问页 而不是默认首页
   },
   methods: {
-    handleLogout () {
+    handleHeaderCommand () {
       console.log(123)
       sessionStorage.setItem('V_accessToken', '')
-      this.$router.push({ path: 'login' })
+      this.$router.push({ name: 'login' })
     }
   }
 }
@@ -91,6 +91,7 @@ export default {
     .header-wrap{
       padding-top: 20px;
       text-align: right;
+      background-color: #ececec;
     }
   }
 

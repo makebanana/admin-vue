@@ -10,9 +10,9 @@ export default function fetch (options) {
   let completeCb = options.completeCb || function loadingEnd () { loadingInstance.close() }
   return new Promise((resolve, reject) => {
     let instance = axios.create({
-      timeout: 2000,
+      timeout: 4000,
       headers: {
-        'authorization': localStorage.getItem('V_accessToken'),
+        'authorization': sessionStorage.getItem('V_accessToken'),
         'Content-Type': 'application/json'
       }
     })
@@ -47,8 +47,8 @@ export default function fetch (options) {
 
       if (returnCode === 401) {
         // 删除用户token
-        localStorage.removeItem('V_accessToken')
-        localStorage.removeItem('V_userId')
+        sessionStorage.removeItem('V_accessToken')
+        sessionStorage.removeItem('V_userId')
 
         MessageBox.alert({
           title: '提示',
@@ -67,6 +67,7 @@ export default function fetch (options) {
         title: '提示',
         message: response.data.message || '处理失败'
       })
+
       reject(response.data)
     }).catch(error => {
       completeCb()

@@ -1,10 +1,20 @@
 <template>
   <div class="login-box">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="账号">
+    <el-form ref="loginForm" :model="form" label-width="80px">
+      <el-form-item
+        label="账号"
+        prop="name"
+       :rules="[
+         { required: true, message: '账号不能为空'},
+       ]">
         <el-input v-model="form.name" placeholder="请输入账号"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item
+        label="密码"
+        prop="password"
+        :rules="[
+          { required: true, message: '密码不能为空'},
+        ]">
         <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item>
@@ -13,13 +23,14 @@
           class="login-button"
           :loading="isloading"
           :display='isloading'
-          @click="onSubmit">{{isloading ? '正在登录...' : '登录'}}</el-button>
+          @click="onSubmit('loginForm')">{{isloading ? '正在登录...' : '登录'}}</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import md5 from 'js-md5'
 export default {
   name: 'login',
   data () {
@@ -29,13 +40,47 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (loginForm) {
       this.isloading = true
-      setTimeout(() => {
-        sessionStorage.setItem('V_accessToken', 123123)
+      this.$refs[loginForm].validate((valid) => {
+        if (valid) {
+          this.userLogin()
+        } else {
+          console.log('error submit!!')
+          this.isloading = false
+          return false
+        }
+      })
+      // setTimeout(() => {
+      //   sessionStorage.setItem('V_accessToken', 123123)
+      //   this.isloading = false
+      //
+      // }, 1000)
+    },
+    userLogin () {
+      this.$fetch({
+        url: '/api/user/account/login',
+        method: 'post',
+        data: {
+          mobile: this.form.name,
+          password: md5(this.form.password)
+        }
+      }).then(data => {
         this.isloading = false
+        sessionStorage.setItem('V_accessToken', data.authorization)
+        sessionStorage.setItem('V_userId', data.userId)
+        this.$notify.success({
+          title: '登录成功',
+          message: '欢迎回来'
+        })
         this.$router.push(this.$route.redirect || { name: 'index' })
-      }, 1000)
+      }).catch(err => {
+        this.isloading = false
+        this.$notify.error({
+          title: '登录出错',
+          message: err.message || '登录失败'
+        })
+      })
     }
   }
 }

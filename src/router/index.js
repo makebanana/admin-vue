@@ -25,7 +25,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (!sessionStorage.getItem('V_accessToken') && to.name !== 'login') {
     next({
-      path: '/login',
+      name: 'login',
       query: { redirect: to }
     })
   } else {

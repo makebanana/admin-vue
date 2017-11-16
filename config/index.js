@@ -11,11 +11,15 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-		target:"http://smartdove.iask.in:17946/api",
-		changeOrigin:true,
-		pathRewrite:{
-		    '^/api/(.*)':'$1'
-		}
+      '/api': {
+        target:"http://smartdove.iask.in:17946/api",
+    		changeOrigin:true,
+        logLevel:"debug",
+    		pathRewrite:{
+    		    '^/api/(.*)':'$1'
+    		},
+        proxyTimeout: 40000
+      }
     },
 
     // Various Dev Server settings
