@@ -1,6 +1,7 @@
 <template>
   <el-container class="big-wrap">
     <el-aside width="200px"  class="side-wrap">
+      <div class="side-logo">logo</div>
       <el-menu :default-openeds="['1']">
         <el-submenu v-for="(item, index) in authMenus" :index="index + 1 + ''" :key="index" v-if="item.child.length">
           <template slot="title"><i v-if="item.logo" :class="item.logo"></i>{{item.name}}</template>
@@ -28,46 +29,19 @@ export default {
   name: 'index',
   data () {
     return {
-      authMenus: [
-        {
-          id: 10000,
-          name: '用户管理',
-          logo: 'el-icon-mobile-phone',
-          child: [
-            {
-              id: 10001,
-              name: '新增用户'
-            },
-            {
-              id: 10003,
-              name: '用户列表'
-            }
-          ]
-        },
-        {
-          id: 40000,
-          name: '版本管理',
-          logo: 'el-icon-tickets',
-          child: [
-            {
-              id: 40001,
-              name: '新增版本'
-            }
-          ]
-        },
-        {
-          id: 90000,
-          name: '系统配置',
-          logo: 'el-icon-setting',
-          child: []
-        }
-      ]
+      authMenus: []
     }
   },
   created () {
     // 获取该用户 拥有的管理权限
-    // this.$fetch().then().catch()
     // 首次加载如何判断侧边栏展开命中是个问题，问题前提是登录之后回到最初访问页 而不是默认首页
+    this.$fetch({
+      url: '/api/nav'
+    }).then(res => {
+      this.authMenus = res.data.authMenus
+    }).catch(err => {
+      console.log('获取失败' + err)
+    })
   },
   methods: {
     handleHeaderCommand () {
@@ -84,8 +58,14 @@ export default {
     min-height: 100vh;
 
     .side-wrap{
-      padding-top: 20px;
       background-color: #333346;
+
+      .side-logo{
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        color: #fff;
+      }
     }
 
     .header-wrap{

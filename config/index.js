@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target:"http://smartdove.iask.in:17946/api",
+        target:"http://127.0.0.1:7777/api",
     		changeOrigin:true,
         logLevel:"debug",
     		pathRewrite:{

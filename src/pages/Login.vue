@@ -59,7 +59,7 @@ export default {
     },
     userLogin () {
       this.$fetch({
-        url: '/api/user/account/login',
+        url: '/api/login',
         method: 'post',
         data: {
           mobile: this.form.name,
