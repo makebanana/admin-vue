@@ -5,7 +5,7 @@
   "author": "chenting <530547479@qq.com>",
   "private": true,
   "scripts": {
-    "fulldev": "set MOCK_SEVICE_HOST=7777&& npm run dev",
+    "fulldev": "cross-env MOCK_SEVICE_HOST=7777 npm run dev",
     "dev": " webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest test/unit/specs --coverage",
@@ -35,6 +35,7 @@
     "chalk": "^2.0.1",
     "chromedriver": "^2.27.2",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^5.1.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
     "eslint": "^3.19.0",
