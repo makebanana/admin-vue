@@ -94,7 +94,7 @@ export default {
     border: 1px solid #d9d9d9;
 
     .login-button{
-      width: 100px;
+      width: 200px;
     }
   }
 </style>

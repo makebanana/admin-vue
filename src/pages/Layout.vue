@@ -19,12 +19,23 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <el-tabs tab-position="top">
+          <el-tab-pane label="消息中心">
+            我的行程
+          </el-tab-pane>
+          <el-tab-pane label="消息中心">消息中心</el-tab-pane>
+          <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+          <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+        </el-tabs>
+        <router-view/>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+// need to do, keep alive tab
 export default {
   name: 'index',
   data () {
@@ -44,10 +55,20 @@ export default {
     })
   },
   methods: {
+    // 退出管理系统
     handleHeaderCommand () {
-      console.log(123)
       sessionStorage.setItem('V_accessToken', '')
       this.$router.push({ name: 'login' })
+    },
+
+    // 动态添加tabs
+    handleAddTabs (path) {
+
+    },
+
+    // 删除一个tabs
+    handleDelTabs (index) {
+
     }
   }
 }
