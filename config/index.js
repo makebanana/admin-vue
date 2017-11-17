@@ -3,6 +3,20 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+let mockService = {}
+if (process.env.MOCK_SEVICE_HOST) {
+  mockService = {
+    '/api': {
+      target: `http://127.0.0.1:${process.env.MOCK_SEVICE_HOST}/api`,
+      changeOrigin: true,
+      logLevel: 'debug',
+      pathRewrite:{
+          '^/api/(.*)': '$1'
+      },
+      proxyTimeout: 40000
+    }
+  }
+}
 
 module.exports = {
   dev: {
@@ -10,17 +24,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target:"http://127.0.0.1:7777/api",
-    		changeOrigin:true,
-        logLevel:"debug",
-    		pathRewrite:{
-    		    '^/api/(.*)':'$1'
-    		},
-        proxyTimeout: 40000
-      }
-    },
+    proxyTable: mockService,
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

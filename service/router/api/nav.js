@@ -1,6 +1,6 @@
 const router = require('koa-router')()
 
-module.exports = router.get('api/nav', async (ctx) => {
+module.exports = router.get('nav', async (ctx) => {
   ctx.body = {
     code: 200,
     data: {

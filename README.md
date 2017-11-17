@@ -11,8 +11,8 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# make a serivce by koa, for mock at 127.0.0.1:7777
-npm run serivce
+# make a full stack for dev
+npm run fulldev
 
 # build for production with minification
 npm run build

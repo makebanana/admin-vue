@@ -51,11 +51,6 @@ export default {
           return false
         }
       })
-      // setTimeout(() => {
-      //   sessionStorage.setItem('V_accessToken', 123123)
-      //   this.isloading = false
-      //
-      // }, 1000)
     },
     userLogin () {
       this.$fetch({
@@ -65,13 +60,13 @@ export default {
           mobile: this.form.name,
           password: md5(this.form.password)
         }
-      }).then(data => {
+      }).then(res => {
         this.isloading = false
-        sessionStorage.setItem('V_accessToken', data.authorization)
-        sessionStorage.setItem('V_userId', data.userId)
+        sessionStorage.setItem('V_accessToken', res.data.authorization)
+        sessionStorage.setItem('V_userId', res.data.userId)
         this.$notify.success({
           title: '登录成功',
-          message: '欢迎回来'
+          message: `管理员${res.data.name},欢迎回来`
         })
         this.$router.push(this.$route.redirect || { name: 'index' })
       }).catch(err => {

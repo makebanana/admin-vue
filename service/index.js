@@ -8,6 +8,10 @@ app.use(bodyParser())
 
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(7777, () => {
-  console.log('[demo] request post is starting at port 7777')
-})
+function mockService (serviceHost) {
+  app.listen(serviceHost, () => {
+    console.log(`[service] mock service running and post is starting at port ${serviceHost}`)
+  })
+}
+
+module.exports = mockService

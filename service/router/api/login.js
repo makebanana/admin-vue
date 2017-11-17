@@ -7,7 +7,7 @@ function makeToken (key) {
   })
 }
 
-module.exports = router.post('api/login', async (ctx) => {
+module.exports = router.post('login', async (ctx) => {
   let { mobile } = ctx.request.body
 
   ctx.body = {
@@ -15,7 +15,7 @@ module.exports = router.post('api/login', async (ctx) => {
     data: {
       authorization: makeToken(mobile),
       userId: 123,
-      name: '用户' + mobile
+      name: mobile
     }
   }
 })
