@@ -1,6 +1,8 @@
 # backend-vue
 
 > '从零开始编写一个vue 管理后台'
+> '通过对脱离 vue-router 实现一个 多开 tab，并且保存每一个tab的状态'
+> '所有数据都是通过 /serivce' 目录下， koa 框架模式返回固定值， 脱离 mockjs的入侵性
 
 ## Build Setup
 
