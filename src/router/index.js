@@ -9,12 +9,12 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: Login
     },
     {
-      path: '/index',
+      path: '/',
       name: 'index',
       component: Layout
     }
@@ -25,8 +25,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (!sessionStorage.getItem('V_accessToken') && to.name !== 'login') {
     next({
-      name: 'login',
-      query: { redirect: to }
+      name: 'login'
     })
   } else {
     next()

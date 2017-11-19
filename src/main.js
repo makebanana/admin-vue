@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './theme/reset.css'
 import fetch from './util/fetch'
+import store from './store/index'
 
 Vue.prototype.$fetch = fetch
 Vue.use(ElementUI)
@@ -17,6 +18,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

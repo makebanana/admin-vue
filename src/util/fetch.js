@@ -49,6 +49,7 @@ export default function fetch (options) {
         // 删除用户token
         sessionStorage.removeItem('V_accessToken')
         sessionStorage.removeItem('V_userId')
+        sessionStorage.removeItem('V_auth')
 
         MessageBox.alert({
           title: '提示',

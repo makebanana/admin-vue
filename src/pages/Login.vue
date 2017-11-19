@@ -31,6 +31,10 @@
 
 <script>
 import md5 from 'js-md5'
+
+// 模块说明
+// 用户的token, uid, uname sessionStorage
+// 用户能够管理的权限获取， sessionStorage
 export default {
   name: 'login',
   data () {
@@ -52,6 +56,9 @@ export default {
         }
       })
     },
+    updateUserAuth (cb) {
+      this.$store.dispatch('updateAuthAsync', cb)
+    },
     userLogin () {
       this.$fetch({
         url: '/api/login',
@@ -68,7 +75,7 @@ export default {
           title: '登录成功',
           message: `管理员${res.data.name},欢迎回来`
         })
-        this.$router.push(this.$route.redirect || { name: 'index' })
+        this.updateUserAuth(this.$router.push({ path: '/' }))
       }).catch(err => {
         this.isloading = false
         this.$notify.error({

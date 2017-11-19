@@ -10,10 +10,7 @@ const portfinder = require('portfinder')
 const mockService = require('../service/index')
 
 // 启动mockSerivce
-console.log(process.env.MOCK_SEVICE_HOST)
-
 if (process.env.MOCK_SEVICE_HOST) {
-  console.log('yes')
   mockService(process.env.MOCK_SEVICE_HOST)
 }
 
