@@ -71,7 +71,24 @@ const app = {
 
     // 删除tab
     removeTab (state, path) {
-      state.tabsList = state.tabsList.filter(item => item.path !== path)
+      let delIndex
+      let delpath
+      state.tabsList = state.tabsList.filter((item, i) => {
+        if (item.path === path) {
+          delIndex = i
+          delpath = path
+        }
+        return item.path !== path
+      })
+
+      // 删除选中
+      if (path === delpath) {
+        if (state.tabsList.length) {
+          state.activePath = state.tabsList[delIndex] ? state.tabsList[delIndex].path : state.tabsList[delIndex - 1].path
+        } else {
+          state.activePath = '/'
+        }
+      }
     }
   },
 
