@@ -30,7 +30,7 @@
             :label="item.name"
             :name="item.path"
             closable>
-              <div :is="item.component"> </div>
+              <div :is="item.component" :query="item.query"> </div>
             </el-tab-pane>
         </el-tabs>
       </el-main>

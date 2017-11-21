@@ -28,9 +28,9 @@ const authMap = {
       isNav: true
     },
     {
-      name: '编辑用户',
-      path: '/user/edit/:uid',
-      component: r => require.ensure([], () => r(require('@/pages/User/Edit')), 'chunk_user_edit')
+      name: '用户详情',
+      path: '/user/{uid}',
+      component: r => require.ensure([], () => r(require('@/pages/User/Detail')), 'chunk_user_detail')
     }
   ],
   '20000': {

@@ -1,20 +1,72 @@
 <template>
   <div>
-    <h1>我是用户列表页面</h1>
-    <h2>试试输入 input 切换之后，值是否保持（避免了 keep-alive 数据销毁的问题）</h2>
-    <input type="text" name="" value="" >
+    <el-table
+      :data="userList"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="name"
+        label="姓名">
+      </el-table-column>
+      <el-table-column
+        prop="mobile"
+        label="手机号码">
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        width="100">
+        <template slot-scope="scope">
+          <el-button @click="handleLookDetail(scope.row)" type="text" size="small">查看</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'userlist'
+  name: 'userlist',
+  data () {
+    return {
+      userList: []
+    }
+  },
+  created () {
+    this.$fetch({
+      url: '/api/user',
+      data: {
+        pageNo: 1,
+        pageSize: 10
+      }
+    }).then(res => {
+      this.userList = res.data.userList
+    }).catch(err => {
+      console.log('npm run fulldev，不可能出现哈哈哈' + err)
+    })
+  },
+  methods: {
+    commitUpdateTab (config) {
+      this.$store.commit('updateTab', config)
+    },
+
+    handleLookDetail (item) {
+      let { name, id } = item
+
+      this.commitUpdateTab({
+        path: '/user/{uid}',
+        name: '用户详情: ' + name,
+        query: {
+          uid: id
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style lang="scss">
- input{
-   width: 300px;
-   height: 40px;
+ .input-wrap{
+   margin: 20px 0;
+   width: 400px;
  }
 </style>
