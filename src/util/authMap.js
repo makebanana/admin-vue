@@ -72,6 +72,7 @@ function turnAuthToNavAndAllowed (auth = []) {
   *   }
   * ]
   */
+  console.log(typeof auth)
   auth.forEach(item => {
     let navItem = authMap[item.id]
 

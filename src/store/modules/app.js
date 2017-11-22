@@ -2,7 +2,7 @@ import fetch from '@/util/fetch'
 import turnAuthToNavAndAllowed from '@/util/authMap'
 import formateString from '@/util/formateString'
 
-let sessionAuthData = turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth') || '"{}"'))
+let sessionAuthData = turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth') || JSON.stringify([])))
 
 const app = {
   state: {

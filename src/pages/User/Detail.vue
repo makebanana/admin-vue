@@ -20,7 +20,7 @@ export default {
     let { uid } = this.$attrs.query
     this.uid = uid
     this.$fetch({
-      url: '/user/' + uid
+      url: '/api/user/' + uid
     }).then(res => {
       this.user = res.data.user
     })

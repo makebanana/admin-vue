@@ -53,12 +53,23 @@ module.exports = router.get('user', async (ctx) => {
       resultCount: userData.length
     }
   }
-}).get('user/', async (ctx) => {
-  console.log(ctx)
+}).get('user/:uid', async (ctx) => {
+  let uid = parseInt(ctx.params.uid)
+  let user = {
+    id: Date.now(),
+    name: uid,
+    mobile: uid * 10000
+  }
+  userData.some(item => {
+    if (item.id === uid) {
+      user = item
+    }
+    return item.id === uid
+  })
   ctx.body = {
     code: 200,
     data: {
-      user: {}
+      user: user
     }
   }
 })
