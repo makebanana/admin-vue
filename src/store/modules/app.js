@@ -1,6 +1,6 @@
 import fetch from '@/util/fetch'
 import turnAuthToNavAndAllowed from '@/util/authMap'
-import formateString from '@/util/formateString'
+import pathToRegexp from 'path-to-regexp'
 
 let sessionAuthData = turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth') || JSON.stringify([])))
 
@@ -49,7 +49,8 @@ const app = {
       let path = typeof config === 'string' ? config : config.path
       let realPath = path
       if (config && config.query) {
-        realPath = formateString(path, config.query)
+        let toPath = pathToRegexp.compile(path)
+        realPath = toPath(config.query)
       }
 
       // 当不存在历史
