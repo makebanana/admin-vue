@@ -1,10 +1,10 @@
-/**
+/*
+* tab 显示路由分配
 * 参数说明
-* @params name       侧边栏导航、以及 tabs 显示的title
-* @params path       该权限对应的配置路径
-* @params isNav      是否需要出现在侧边栏
-* @params child      出现在侧边栏的子类，用于大类
+* @params name       tab name
+* @params component  tab component
 */
+const noFind = r => require.ensure([], () => r(require('@/pages/NoFind')), 'chunk_nofind')
 const userList = r => require.ensure([], () => r(require('@/pages/User/List')), 'chunk_user_list')
 const userAdd = r => require.ensure([], () => r(require('@/pages/User/Add')), 'chunk_user_add')
 const userDetail = r => require.ensure([], () => r(require('@/pages/User/Detail')), 'chunk_user_detail')
@@ -20,6 +20,10 @@ const analysisPhoto = r => require.ensure([], () => r(require('@/pages/Analysis/
 const analysisCustomer = r => require.ensure([], () => r(require('@/pages/Analysis/Customer')), 'chunk_analysis_customer')
 const manager = r => require.ensure([], () => r(require('@/pages/System/Manager')), 'chunk_system_manager')
 const tabConfig = {
+  '/nofind': {
+    name: '没有找到',
+    component: noFind
+  },
   '/user/add': {
     name: '新增用户',
     component: userAdd
@@ -49,12 +53,12 @@ const tabConfig = {
     component: photoList
   },
   '/message/message': {
-    name: '消息列表',
+    name: '系统消息',
     component: message
   },
   '/message/suggest': {
     code: 30002,
-    name: '反馈列表',
+    name: '反馈建议',
     component: suggest,
     isNav: true
   },

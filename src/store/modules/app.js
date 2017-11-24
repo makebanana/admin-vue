@@ -1,6 +1,7 @@
 import fetch from '@/util/fetch'
-import turnAuthToNavAndAllowed from '@/util/authMap'
+import turnAuthToNavAndAllowed from '@/tab/index'
 import pathToRegexp from 'path-to-regexp'
+import tabConfig from '@/tab/tabConfig'
 
 let sessionAuthData = turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth') || JSON.stringify([])))
 
@@ -47,7 +48,7 @@ const app = {
       // path 用来匹配 authMap.js 配置的路由
       // realPath 用来保持 tab 的唯一性，也就造就了在列表页面多开详情页面的可能
       let path = typeof config === 'string' ? config : config.path
-      let realPath = path
+      let realPath = tabConfig[path] ? path : '/nofind'
       if (config && config.query) {
         let toPath = pathToRegexp.compile(path)
         realPath = toPath(config.query)
@@ -55,25 +56,7 @@ const app = {
 
       // 当不存在历史
       if (!state.tabsList.some(item => item.path === realPath)) {
-        let newTab
-        state.navList.some(big => {
-          if (big.path === path && !big.child.length) {
-            newTab = Object.assign({}, big)
-            return true
-          }
-
-          return big.child.some(child => {
-            if (child.path === path) {
-              newTab = Object.assign({}, child)
-            }
-            return child.path === path
-          })
-        })
-
-        // 未命中
-        if (!newTab) {
-          // 去404
-        }
+        let newTab = Object.assign({}, tabConfig[path])
 
         // 是否需要自定义名称
         if (config.name) {

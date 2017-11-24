@@ -1,8 +1,8 @@
 <template>
   <el-menu :default-active="activePath" @select="handleTargetTab">
-    <el-submenu v-for="(item, index) in authMenus" :index="item.path" :key="item.path" v-if="item.child.length">
+    <el-submenu v-for="(item, index) in authMenus" :index="item.name" :key="item.path" v-if="item.child.length">
       <template slot="title"><i v-if="item.logo" :class="item.logo"></i>{{item.name}}</template>
-        <el-menu-item v-for="(child, i) in item.child" v-if="child.isNav"  :index="child.path" :key="i">
+        <el-menu-item v-for="(child, i) in item.child" :index="child.path" :key="i">
           {{child.name}}
         </el-menu-item>
     </el-submenu>

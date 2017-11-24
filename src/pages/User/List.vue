@@ -53,10 +53,10 @@ export default {
       let { name, id } = item
 
       this.commitUpdateTab({
-        path: '/user/{uid}',
+        path: '/user/:id',
         name: '用户详情: ' + name,
         query: {
-          uid: id
+          id: id
         }
       })
     }

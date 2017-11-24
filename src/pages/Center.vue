@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>假如我是用户列表页面,或则你打开 <a class="link-btn" @click.stop="handleOpenUserList">用户列表页面</a></h1>
-    <h2>输入需要新开的页面 比如 /User/Detail.vue(path: '/user/:uid')</h2>
+    <h2>输入需要新开的页面 比如 /User/Detail.vue(path: '/user/:id')</h2>
     <div>
       <el-input placeholder="输入需要传递的id" class="input-wrap" v-model="demoId">
         <template slot="prepend">demoId</template>
@@ -39,10 +39,10 @@ export default {
       // 当不传递 name 是，还是以 authMap 配置为准
       // 不准备 启用 名字变更，也就是了 uid 不变， name 改变
       this.commitUpdateTab({
-        path: '/user/:uid',
+        path: '/user/:id',
         name: tabName,
         query: {
-          uid: demoId
+          id: demoId
         }
       })
     },

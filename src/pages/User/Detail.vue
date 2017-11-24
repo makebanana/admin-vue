@@ -12,15 +12,15 @@ export default {
   name: 'userdetail',
   data () {
     return {
-      uid: null,
+      id: null,
       user: {}
     }
   },
   created () {
-    let { uid } = this.$attrs.query
-    this.uid = uid
+    let { id } = this.$attrs.query
+    this.id = id
     this.$fetch({
-      url: '/api/user/' + uid
+      url: '/api/user/' + id
     }).then(res => {
       this.user = res.data.user
     })
