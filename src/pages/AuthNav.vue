@@ -1,5 +1,11 @@
 <template>
-  <el-menu :default-active="activePath" @select="handleTargetTab">
+  <el-menu
+    :default-active="activePath"
+    class="el-menu-vertical-demo"
+    background-color="#404040"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    @select="handleTargetTab">
     <el-submenu v-for="(item, index) in authMenus" :index="item.name" :key="item.path" v-if="item.child.length">
       <template slot="title"><i v-if="item.logo" :class="item.logo"></i>{{item.name}}</template>
         <el-menu-item v-for="(child, i) in item.child" :index="child.path" :key="i">
@@ -34,4 +40,7 @@ export default {
 </script>
 
 <style lang="css">
+.el-menu-item.is-active{
+
+}
 </style>

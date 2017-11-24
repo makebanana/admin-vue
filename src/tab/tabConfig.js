@@ -22,69 +22,83 @@ const manager = r => require.ensure([], () => r(require('@/pages/System/Manager'
 const tabConfig = {
   '/nofind': {
     name: '没有找到',
-    component: noFind
+    component: noFind,
+    breadcrumb: ['未找到目标页面']
   },
   '/user/add': {
     name: '新增用户',
-    component: userAdd
+    component: userAdd,
+    breadcrumb: ['用户管理', '新增用户']
   },
   '/user/list': {
     name: '用户列表',
-    component: userList
+    component: userList,
+    breadcrumb: ['用户管理', '用户列表']
   },
   '/user/:id': {
     name: '用户详情',
-    component: userDetail
+    component: userDetail,
+    breadcrumb: ['用户管理', '用户详情']
   },
   '/photo/add': {
     name: '新增相片',
-    component: photoAdd
+    component: photoAdd,
+    breadcrumb: ['相片管理', '新增相片']
   },
   '/photo/list': {
     name: '相片列表',
-    component: photoList
+    component: photoList,
+    breadcrumb: ['相片管理', '相片列表']
   },
   '/photo/type': {
     name: '分类列表',
-    component: photoType
+    component: photoType,
+    breadcrumb: ['相片管理', '分类列表']
   },
   '/photo/:id': {
     name: '相片详情',
-    component: photoList
+    component: photoList,
+    breadcrumb: ['相片管理', '相片详情']
   },
   '/message/message': {
     name: '系统消息',
-    component: message
+    component: message,
+    breadcrumb: ['消息管理', '系统消息']
   },
   '/message/suggest': {
-    code: 30002,
     name: '反馈建议',
     component: suggest,
-    isNav: true
+    breadcrumb: ['消息管理', '反馈建议']
   },
   '/active/add': {
     name: '新增活动',
-    component: activeAdd
+    component: activeAdd,
+    breadcrumb: ['活动管理', '新增活动']
   },
   '/active/list': {
     name: '活动列表',
-    component: activeList
+    component: activeList,
+    breadcrumb: ['活动管理', '活动列表']
   },
   '/active/:id': {
     name: '活动详情',
-    component: activeEdit
+    component: activeEdit,
+    breadcrumb: ['活动管理', '活动详情']
   },
   '/analysis/photo': {
     name: '相片分析',
-    component: analysisPhoto
+    component: analysisPhoto,
+    breadcrumb: ['分析管理', '相片分析']
   },
   '/analysis/customer': {
     name: '客户分析',
-    component: analysisCustomer
+    component: analysisCustomer,
+    breadcrumb: ['分析管理', '客户分析']
   },
   '/manager': {
     name: '管理员管理',
-    component: manager
+    component: manager,
+    breadcrumb: ['管理员管理']
   }
 }
 

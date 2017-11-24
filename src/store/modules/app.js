@@ -93,6 +93,26 @@ const app = {
           state.activePath = '/'
         }
       }
+    },
+
+    // 刷新tab
+    reloadTab (state, index) {
+      let tabsList = state.tabsList.slice()
+
+      tabsList[index].reloading = true
+      state.tabsList = tabsList
+
+      // 500s 假装一下罗
+      setTimeout(() => {
+        let tabsList = state.tabsList.slice()
+        tabsList[index].reloading = false
+        state.tabsList = tabsList
+      }, 500)
+    },
+
+    // 关闭其他
+    closeOtherTab (state, index) {
+      state.tabsList = state.tabsList.filter((item, i) => i === index)
     }
   },
 
