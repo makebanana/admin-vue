@@ -1,5 +1,7 @@
 <template>
-  <p>useradd</p>
+  <div>
+    <input type="text" name="" value="">
+  </div>
 </template>
 
 <script>

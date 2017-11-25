@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Loading, MessageBox, Notification } from 'element-ui'
 const loadingOption = {
-  fullscreen: false,
+  target: '.main-wrap',
   text: '加载中...'
 }
 let loadingInstance = null

@@ -4,6 +4,15 @@
 > '通过对脱离 vue-router 实现一个 多开 tab，并且保存每一个tab的状态'
 > '所有数据都是通过 /serivce' 目录下， koa 框架模式返回固定值， 脱离 mockjs的入侵性
 
+
+##解决
+- 保持每一个tab的状态，脱离router，keep-alive 困扰
+- 每个tab 可以配备 关闭、刷新、关闭其他
+
+![keep status](http://upload-images.jianshu.io/upload_images/5611290-4fa67633d19420b7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![active](http://upload-images.jianshu.io/upload_images/5611290-670c18cb3edd00e8.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![配置tab](http://upload-images.jianshu.io/upload_images/5611290-5de00a5355fe4b66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ## Build Setup
 
 ``` bash
