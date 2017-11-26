@@ -19,10 +19,10 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080  启动正常vue项目
 npm run dev
 
-# make a full stack for dev
+# make a full stack for dev  启动vue项目， 所有接口通过 koa 模拟 ／serivce
 npm run fulldev
 
 # build for production with minification
