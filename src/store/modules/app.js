@@ -1,9 +1,9 @@
 import fetch from '@/util/fetch'
-import turnAuthToNavAndAllowed from '@/tab/index'
+import turnAuthToNavAndAllowed from '@/auth/index'
 import pathToRegexp from 'path-to-regexp'
 import tabConfig from '@/tab/tabConfig'
 
-let sessionAuthData = turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth') || JSON.stringify([])))
+let sessionAuthData = JSON.parse(sessionStorage.getItem('V_auth')) ? turnAuthToNavAndAllowed(JSON.parse(sessionStorage.getItem('V_auth'))) : {}
 
 const app = {
   state: {
