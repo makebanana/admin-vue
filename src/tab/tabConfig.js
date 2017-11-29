@@ -1,3 +1,4 @@
+import PathTabs from '../tabs/index'
 /*
 * tab 显示路由分配
 * 参数说明
@@ -101,5 +102,5 @@ const tabConfig = {
     breadcrumb: ['管理员管理']
   }
 }
-
-export default tabConfig
+PathTabs.tabConfig = tabConfig
+export default PathTabs

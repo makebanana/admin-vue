@@ -14,35 +14,7 @@
         </el-dropdown>
       </el-header>
       <el-main class="main-wrap">
-        <path-tabs
-          class="min100height"
-          v-model="activePath"
-          tab-position="top"
-          type="border-card"
-          @tab-remove="handleDelTabs"
-          @tab-click="handleTabClick">
-          <path-tab-pane name="/">
-            <span slot="label">首页</span>
-            <Center/>
-          </path-tab-pane>
-          <path-tab-pane
-            class="min100height"
-            v-for="(item, index) in tabList"
-            :key="item.path"
-            :label="item.name"
-            :name="item.path"
-            closable>
-              <el-breadcrumb class="breadcrumb"  v-if="item.breadcrumb && item.breadcrumb.length">
-                <el-breadcrumb-item v-for="crumb in item.breadcrumb" :key="crumb">{{crumb}}</el-breadcrumb-item>
-              </el-breadcrumb>
-              <div class="tab-control-box" v-loading="item.reloading">
-                <a @click.stop="handleDelTabs(item.path)">关闭</a>
-                <a @click.stop="handleReloadTab(index)">刷新</a>
-                <a @click.stop="handleCloseOther(index)">关闭其他</a>
-              </div>
-              <div v-if="!item.reloading" :is="item.component" :query="item.query"> </div>
-            </path-tab-pane>
-        </path-tabs>
+        <path-tabs-view></path-tabs-view>
       </el-main>
     </el-container>
   </el-container>

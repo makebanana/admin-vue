@@ -53,7 +53,7 @@
 
     methods: {
       scrollPrev () {
-        const containerSize = this.$refs.navScroll[`offset${firstUpperCase(this.sizeName)}`]
+        const containerSize = this.$refs.pathNavScroll[`offset${firstUpperCase(this.sizeName)}`]
         const currentOffset = this.navOffset
 
         if (!currentOffset) return
@@ -65,8 +65,8 @@
         this.navOffset = newOffset
       },
       scrollNext () {
-        const navSize = this.$refs.nav[`offset${firstUpperCase(this.sizeName)}`]
-        const containerSize = this.$refs.navScroll[`offset${firstUpperCase(this.sizeName)}`]
+        const navSize = this.$refs.pathNav[`offset${firstUpperCase(this.sizeName)}`]
+        const containerSize = this.$refs.pathNavScroll[`offset${firstUpperCase(this.sizeName)}`]
         const currentOffset = this.navOffset
 
         if (navSize - currentOffset <= containerSize) return
@@ -79,9 +79,9 @@
       },
       scrollToActiveTab () {
         if (!this.scrollable) return
-        const nav = this.$refs.nav
+        const nav = this.$refs.pathNav
         const activeTab = this.$el.querySelector('.is-active')
-        const navScroll = this.$refs.navScroll
+        const navScroll = this.$refs.pathNavScroll
         const activeTabBounding = activeTab.getBoundingClientRect()
         const navScrollBounding = navScroll.getBoundingClientRect()
         const navBounding = nav.getBoundingClientRect()
@@ -100,10 +100,10 @@
         this.navOffset = Math.max(newOffset, 0)
       },
       update () {
-        if (!this.$refs.nav) return
+        if (!this.$refs.pathNav) return
         const sizeName = this.sizeName
-        const navSize = this.$refs.nav[`offset${firstUpperCase(sizeName)}`]
-        const containerSize = this.$refs.navScroll[`offset${firstUpperCase(sizeName)}`]
+        const navSize = this.$refs.pathNav[`offset${firstUpperCase(sizeName)}`]
+        const containerSize = this.$refs.pathNavScroll[`offset${firstUpperCase(sizeName)}`]
         const currentOffset = this.navOffset
 
         if (containerSize < navSize) {
@@ -176,8 +176,8 @@
       } = this
       const scrollBtn = scrollable
       ? [
-        <span class={['el-tabs__nav-prev', scrollable.prev ? '' : 'is-disabled']} on-click={scrollPrev}><i class="el-icon-arrow-left"></i></span>,
-        <span class={['el-tabs__nav-next', scrollable.next ? '' : 'is-disabled']} on-click={scrollNext}><i class="el-icon-arrow-right"></i></span>
+        <span class={['path-tabs__nav-prev', scrollable.prev ? '' : 'is-disabled']} on-click={scrollPrev}><i class="path-icon-arrow-left"></i></span>,
+        <span class={['path-tabs__nav-next', scrollable.next ? '' : 'is-disabled']} on-click={scrollNext}><i class="path-icon-arrow-right"></i></span>
       ] : null
 
       const tabs = this._l(panes, (pane, index) => {
@@ -187,7 +187,7 @@
         pane.index = `${index}`
 
         const btnClose = closable
-          ? <span class="el-icon-close" on-click={(ev) => { onTabRemove(pane, ev) } }></span>
+          ? <span class="path-icon-close" on-click={(ev) => { onTabRemove(pane, ev) } }></span>
           : null
 
         const tabLabelContent = pane.$slots.label || pane.label
@@ -195,7 +195,7 @@
         return (
           <div
             class={{
-              'el-tabs__item': true,
+              'path-tabs__item': true,
               'is-active': pane.active,
               'is-disabled': pane.disabled,
               'is-closable': closable,
@@ -205,7 +205,7 @@
             aria-controls={`pane-${tabName}`}
             role="tab"
             aria-selected= { pane.active }
-            ref="tabs"
+            ref="pathTabs"
             tabindex= {tabindex}
             refInFor
             on-focus= { () => { setFocus() } }
@@ -219,10 +219,10 @@
         )
       })
       return (
-        <div class={['el-tabs__nav-wrap', scrollable ? 'is-scrollable' : '']}>
+        <div class={['path-tabs__nav-wrap', scrollable ? 'is-scrollable' : '']}>
           {scrollBtn}
-          <div class={['el-tabs__nav-scroll']} ref="navScroll">
-            <div class="el-tabs__nav" ref="nav" style={navStyle} role="tablist" on-keydown={ changeTab }>
+          <div class={['path-tabs__nav-scroll']} ref="pathNavScroll">
+            <div class="path-tabs__nav" ref="pathNav" style={navStyle} role="tablist" on-keydown={ changeTab }>
               {!type ? <tab-bar tabs={panes}></tab-bar> : null}
               {tabs}
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="el-tabs__active-bar" :style="barStyle"></div>
+  <div class="path-tabs__active-bar" :style="barStyle"></div>
 </template>
 <script>
   export default {
@@ -15,7 +15,7 @@
       barStyle: {
         cache: false,
         get () {
-          if (!this.$parent.$refs.tabs) return {}
+          if (!this.$parent.$refs.pathTabs) return {}
           let style = {}
           let offset = 0
           let tabSize = 0
@@ -25,7 +25,7 @@
             return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
           }
           this.tabs.every((tab, index) => {
-            let $el = this.$parent.$refs.tabs[index]
+            let $el = this.$parent.$refs.pathTabs[index]
             if (!$el) { return false }
 
             if (!tab.active) {

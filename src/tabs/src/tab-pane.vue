@@ -1,6 +1,6 @@
 <template>
   <div
-    class="el-tab-pane"
+    class="path-tab-pane"
     v-show="active"
     role="tabpanel"
     :aria-hidden="!active"
@@ -14,7 +14,7 @@
   export default {
     name: 'PathTabPane',
 
-    componentName: 'ElTabPane',
+    componentName: 'PathTabPane',
 
     props: {
       label: String,
@@ -27,7 +27,7 @@
     data () {
       return {
         index: null
-      };
+      }
     },
 
     computed: {

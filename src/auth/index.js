@@ -14,7 +14,6 @@ function turnAuthToNavAndAllowed (auth = []) {
   *   }
   * ]
   */
-  console.log(auth)
   let navArr = []
   let allowedArr = []
   let tempFrame = navFrame.filter(item => true)
@@ -26,10 +25,8 @@ function turnAuthToNavAndAllowed (auth = []) {
   })
 
   navArr = tempFrame.filter(item => {
-    console.log(item)
     if (item.child) {
       item.child = item.child.filter(tab => allowedArr.some(path => path === tab.path))
-      console.log(item.child)
       return item.child.length
     }
 
