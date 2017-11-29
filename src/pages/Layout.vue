@@ -14,18 +14,18 @@
         </el-dropdown>
       </el-header>
       <el-main class="main-wrap">
-        <el-tabs
+        <path-tabs
           class="min100height"
           v-model="activePath"
           tab-position="top"
           type="border-card"
           @tab-remove="handleDelTabs"
           @tab-click="handleTabClick">
-          <el-tab-pane name="/">
+          <path-tab-pane name="/">
             <span slot="label">首页</span>
             <Center/>
-          </el-tab-pane>
-          <el-tab-pane
+          </path-tab-pane>
+          <path-tab-pane
             class="min100height"
             v-for="(item, index) in tabList"
             :key="item.path"
@@ -41,8 +41,8 @@
                 <a @click.stop="handleCloseOther(index)">关闭其他</a>
               </div>
               <div v-if="!item.reloading" :is="item.component" :query="item.query"> </div>
-            </el-tab-pane>
-        </el-tabs>
+            </path-tab-pane>
+        </path-tabs>
       </el-main>
     </el-container>
   </el-container>

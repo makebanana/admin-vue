@@ -8,9 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './theme/reset.css'
 import fetch from './util/fetch'
 import store from './store/index'
+import PathTabs from './tabs/src/tabs'
 
 Vue.prototype.$fetch = fetch
 Vue.use(ElementUI)
+Vue.use(PathTabs)
 
 Vue.config.productionTip = false
 
