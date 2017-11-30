@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './theme/reset.css'
 import fetch from './util/fetch'
 import store from './store/index'
-import PathTabsView from './tab/tabConfig'
+import PathTabsView from './tabs/index'
 
 Vue.prototype.$fetch = fetch
 Vue.use(ElementUI)

@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     handleTargetTab (index) {
-      this.$store.commit('updateTab', index)
+      this.$tab.open(index)
     }
   }
 }

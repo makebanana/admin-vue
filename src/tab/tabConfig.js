@@ -1,10 +1,10 @@
-import PathTabs from '../tabs/index'
 /*
 * tab 显示路由分配
 * 参数说明
 * @params name       tab name
 * @params component  tab component
 */
+const center = r => require.ensure([], () => r(require('@/pages/Center')), 'chunk_center')
 const noFind = r => require.ensure([], () => r(require('@/pages/NoFind')), 'chunk_nofind')
 const userList = r => require.ensure([], () => r(require('@/pages/User/List')), 'chunk_user_list')
 const userAdd = r => require.ensure([], () => r(require('@/pages/User/Add')), 'chunk_user_add')
@@ -21,86 +21,76 @@ const analysisPhoto = r => require.ensure([], () => r(require('@/pages/Analysis/
 const analysisCustomer = r => require.ensure([], () => r(require('@/pages/Analysis/Customer')), 'chunk_analysis_customer')
 const manager = r => require.ensure([], () => r(require('@/pages/System/Manager')), 'chunk_system_manager')
 const tabConfig = {
+  '/': {
+    name: '首页',
+    component: center,
+    closable: false,
+    isDefault: true
+  },
   '/nofind': {
     name: '没有找到',
-    component: noFind,
-    breadcrumb: ['未找到目标页面']
+    component: noFind
   },
   '/user/add': {
     name: '新增用户',
-    component: userAdd,
-    breadcrumb: ['用户管理', '新增用户']
+    component: userAdd
   },
   '/user/list': {
     name: '用户列表',
-    component: userList,
-    breadcrumb: ['用户管理', '用户列表']
+    component: userList
   },
   '/user/:id': {
     name: '用户详情',
-    component: userDetail,
-    breadcrumb: ['用户管理', '用户详情']
+    component: userDetail
   },
   '/photo/add': {
     name: '新增相片',
-    component: photoAdd,
-    breadcrumb: ['相片管理', '新增相片']
+    component: photoAdd
   },
   '/photo/list': {
     name: '相片列表',
-    component: photoList,
-    breadcrumb: ['相片管理', '相片列表']
+    component: photoList
   },
   '/photo/type': {
     name: '分类列表',
-    component: photoType,
-    breadcrumb: ['相片管理', '分类列表']
+    component: photoType
   },
   '/photo/:id': {
     name: '相片详情',
-    component: photoList,
-    breadcrumb: ['相片管理', '相片详情']
+    component: photoList
   },
   '/message/message': {
     name: '系统消息',
-    component: message,
-    breadcrumb: ['消息管理', '系统消息']
+    component: message
   },
   '/message/suggest': {
     name: '反馈建议',
-    component: suggest,
-    breadcrumb: ['消息管理', '反馈建议']
+    component: suggest
   },
   '/active/add': {
     name: '新增活动',
-    component: activeAdd,
-    breadcrumb: ['活动管理', '新增活动']
+    component: activeAdd
   },
   '/active/list': {
     name: '活动列表',
-    component: activeList,
-    breadcrumb: ['活动管理', '活动列表']
+    component: activeList
   },
   '/active/:id': {
     name: '活动详情',
-    component: activeEdit,
-    breadcrumb: ['活动管理', '活动详情']
+    component: activeEdit
   },
   '/analysis/photo': {
     name: '相片分析',
-    component: analysisPhoto,
-    breadcrumb: ['分析管理', '相片分析']
+    component: analysisPhoto
   },
   '/analysis/customer': {
     name: '客户分析',
-    component: analysisCustomer,
-    breadcrumb: ['分析管理', '客户分析']
+    component: analysisCustomer
   },
   '/manager': {
     name: '管理员管理',
-    component: manager,
-    breadcrumb: ['管理员管理']
+    component: manager
   }
 }
-PathTabs.tabConfig = tabConfig
-export default PathTabs
+
+export default tabConfig
