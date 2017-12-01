@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>user detail : this.$attrs.query = {{$attrs.query}}</p>
+    <p>user detail : this.$tab.query = {{$tab.query}}</p>
     <h1>{{ user.name }}</h1>
     <h2>{{ user.mobile }}</h2>
   </div>
@@ -17,7 +17,7 @@ export default {
     }
   },
   created () {
-    let { id } = this.$attrs.query
+    let { id } = this.$tab.query
     this.id = id
     this.$fetch({
       url: '/api/user/' + id

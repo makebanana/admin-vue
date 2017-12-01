@@ -14,14 +14,13 @@
         </el-dropdown>
       </el-header>
       <el-main class="main-wrap">
-        <path-tabs-view></path-tabs-view>
+        <path-tabs-view className="min100height" v-model="activePath"></path-tabs-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Center from './Center'
 import AuthNav from './AuthNav'
 
 // need to do, keep alive tab
@@ -29,51 +28,19 @@ export default {
   name: 'index',
   data () {
     return {
+      activePath: ''
+    }
+  },
 
-    }
-  },
-  computed: {
-    activePath: {
-      get () {
-        return this.$store.state.app.activePath
-      },
-      set (val) {
-        this.$store.commit('updateActivePath', val)
-      }
-    },
-    tabList () {
-      return this.$store.state.app.tabsList
-    }
-  },
   components: {
-    Center,
     AuthNav
   },
+
   methods: {
     // 退出管理系统
     handleHeaderCommand () {
       this.$store.commit('userLogout')
       this.$router.push({ name: 'login' })
-    },
-
-    // 切换tab
-    handleTabClick (path) {
-      // console.log(path)
-    },
-
-    // 删除一个tabs
-    handleDelTabs (path) {
-      this.$store.commit('removeTab', path)
-    },
-
-    // 刷新一个tabs
-    handleReloadTab (index) {
-      this.$store.commit('reloadTab', index)
-    },
-
-    // 关闭其他
-    handleCloseOther (index) {
-      this.$store.commit('closeOtherTab', index)
     }
   }
 }

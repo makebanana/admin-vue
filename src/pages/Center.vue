@@ -29,16 +29,11 @@ export default {
     }
   },
   methods: {
-    commitUpdateTab (config) {
-      this.$store.commit('updateTab', config)
-    },
 
     handleUpdateTab () {
       let { demoId, tabName } = this
 
-      // 当不传递 name 是，还是以 authMap 配置为准
-      // 不准备 启用 名字变更，也就是了 uid 不变， name 改变
-      this.commitUpdateTab({
+      this.$tab.open({
         path: '/user/:id',
         name: tabName,
         query: {
@@ -48,7 +43,7 @@ export default {
     },
 
     handleOpenUserList () {
-      this.commitUpdateTab('/user/list')
+      this.$tab.open('/user/list')
     }
   }
 }

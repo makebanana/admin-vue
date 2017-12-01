@@ -6,7 +6,7 @@
     text-color="#fff"
     active-text-color="#ffd04b"
     @select="handleTargetTab">
-    <el-submenu v-for="(item, index) in authMenus" :index="item.name" :key="item.path" v-if="item.child.length">
+    <el-submenu v-for="(item, index) in authMenus" :index="item.name" :key="item.path" v-if="item.child && item.child.length">
       <template slot="title"><i v-if="item.logo" :class="item.logo"></i>{{item.name}}</template>
         <el-menu-item v-for="(child, i) in item.child" :index="child.path" :key="i">
           {{child.name}}
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'auth-nav',
   computed: {
@@ -33,6 +34,7 @@ export default {
   },
   methods: {
     handleTargetTab (index) {
+      console.log('[tab]: ', index)
       this.$tab.open(index)
     }
   }

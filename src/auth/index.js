@@ -3,7 +3,7 @@ import navFrame from './navFrame'
 
 // 如果不需要权限 那就直接 navList = navFrame
 // 为store.auth 提供数据
-function turnAuthToNavAndAllowed (auth = []) {
+export default function turnAuthToAllowedAndNav (auth = []) {
   /**
   * 目标auth 格式
   * [
@@ -19,7 +19,7 @@ function turnAuthToNavAndAllowed (auth = []) {
   let tempFrame = navFrame.filter(item => true)
 
   auth.forEach(item => {
-    if (item.parentId !== 0) {
+    if (authConfig[item.id]) {
       allowedArr.push(...authConfig[item.id])
     }
   })
@@ -41,5 +41,3 @@ function turnAuthToNavAndAllowed (auth = []) {
     navList: navArr
   }
 }
-
-export default turnAuthToNavAndAllowed

@@ -5,15 +5,14 @@
     :class="className"
     :tab-position="tabPosition"
     :type="type"
-    @tab-remove="onTabClose"
-    @tab-click="onTabUpdate">
+    @tab-remove="onTabClose">
     <path-tab-pane
       v-for="(item, index) in tabsList"
       :key="item.path"
       :label="item.name"
       :name="item.path"
       :closable="item.closable">
-        <div v-if="!item.reloading" :is="item.component" :tabPath="item.path" :tabQuery="item.tabQuery" isPathTab> </div>
+        <div v-if="!item.reloading" :is="item.component" :tabPath="item.path" :tabQuery="item.query" isPathTab> </div>
       </path-tab-pane>
   </path-tabs>
 </template>
@@ -57,44 +56,54 @@ export default {
 
   data () {
     return {
-      activePath: '/',
-      tabsList: []
+      activePath: '',
+      tabsList: [],
+      noMatch: {
+        path: '/nomatch',
+        name: 'bad path',
+        component: <div>404</div>,
+        closable: true
+      }
     }
   },
 
   methods: {
     // 新增tab
     onTabUpdate (config) {
+      // 获取path
       let path = typeof config === 'string' ? config : config.path
-      let realPath = tabConfig[path] ? path : '/nofind'
-      if (config && config.query) {
-        let toPath = pathToRegexp.compile(path)
-        realPath = toPath(config.query)
-      }
 
       // 当不存在历史
-      if (!this.tabsList.some(item => item.path === realPath)) {
-        let newTab = Object.assign({}, tabConfig[path])
+      if (!this.tabsList.some(item => item.path === path)) {
+        let newTab = this.noMatch
 
-        // 是否需要自定义名称
-        if (config.name) {
-          newTab.name = config.name
+        // 判断是否存在路由中
+        if (tabConfig.some(item => item.path === path)) {
+          // 获取tab 、注册path
+          newTab = tabConfig.filter(item => item.path === path)[0]
+
+          // 添加参数
+          if (config && config.query) {
+            newTab.path = pathToRegexp.compile(path)(config.query)
+            newTab.query = config.query
+          }
+
+          // 是否需要自定义名称
+          if (config.name) {
+            newTab.name = config.name
+          }
+
+          newTab.closable = typeof newTab.closable === 'boolean' ? newTab.closable : true
         }
 
-        // 是否需要传递参数
-        if (config.query) {
-          newTab.query = config.query
-        }
-
-        newTab.closable = typeof newTab.closable === 'boolean' ? newTab.closable : true
-        newTab.path = realPath
         this.tabsList.push(newTab)
+        path = newTab.path
       }
-      this.activePath = realPath
-      console.log(this.activePath)
+
+      this.activePath = path
     },
 
-    // 切换tab
+    // 处理path
     handleTabClick (path) {
       console.log(path)
     },
@@ -172,8 +181,22 @@ export default {
         }
       })
       this.tabsList = tabsList
-    }
+    },
 
+    // 获取默认未命中页面
+    getNoMatchTab () {
+      let noMatch = tabConfig.filter(item => item.isNoMatch)[0]
+      if (noMatch) { this.noMatch = noMatch }
+    },
+
+    // 打开默认
+    openDefaultTabs () {
+      tabConfig.forEach(item => {
+        if (item.isDefault) {
+          this.onTabUpdate(item.path)
+        }
+      })
+    }
   },
 
   created () {
@@ -184,6 +207,12 @@ export default {
     Events.on('PATHTABS_CLOSEOTHER', this.onTabCloseOther)
     Events.on('PATHTABS_LOOK', this.onTabLock)
     Events.on('PATHTABS_UNLOOK', this.onTabUnlock)
+
+    // 获取404设置
+    this.getNoMatchTab()
+
+    // 打开默认值
+    this.openDefaultTabs()
   }
 }
 </script>

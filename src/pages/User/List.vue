@@ -45,14 +45,11 @@ export default {
     })
   },
   methods: {
-    commitUpdateTab (config) {
-      this.$store.commit('updateTab', config)
-    },
 
     handleLookDetail (item) {
       let { name, id } = item
 
-      this.commitUpdateTab({
+      this.$tab.open({
         path: '/user/:id',
         name: '用户详情: ' + name,
         query: {
