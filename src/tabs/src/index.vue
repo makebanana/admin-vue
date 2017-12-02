@@ -213,6 +213,10 @@ export default {
 
     // 打开默认值
     this.openDefaultTabs()
+  },
+
+  beforeUpdate () {
+
   }
 }
 </script>

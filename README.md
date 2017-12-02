@@ -9,9 +9,8 @@
 - 保持每一个tab的状态，脱离router，keep-alive 困扰
 - 每个tab 可以配备 关闭、刷新、关闭其他
 
-![keep status](http://upload-images.jianshu.io/upload_images/5611290-4fa67633d19420b7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![active](http://upload-images.jianshu.io/upload_images/5611290-670c18cb3edd00e8.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![配置tab](http://upload-images.jianshu.io/upload_images/5611290-5de00a5355fe4b66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 ## Build Setup
 
