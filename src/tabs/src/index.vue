@@ -80,7 +80,7 @@ export default {
         // 判断是否存在路由中
         if (tabConfig.some(item => item.path === path)) {
           // 获取tab 、注册path
-          newTab = tabConfig.filter(item => item.path === path)[0]
+          newTab = Object.assign({}, tabConfig.filter(item => item.path === path)[0])
 
           // 添加参数
           if (config && config.query) {
