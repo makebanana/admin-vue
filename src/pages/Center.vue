@@ -22,14 +22,15 @@
 <script>
 export default {
   name: 'center',
+
   data () {
     return {
       demoId: null,
       tabName: null
     }
   },
-  methods: {
 
+  methods: {
     handleUpdateTab () {
       let { demoId, tabName } = this
 
@@ -45,6 +46,10 @@ export default {
     handleOpenUserList () {
       this.$tab.open('/user/list')
     }
+  },
+
+  created () {
+
   }
 }
 </script>

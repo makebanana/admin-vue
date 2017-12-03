@@ -17,26 +17,41 @@
 </template>
 
 <script>
+import turnAuthToAllowedAndNav from '@/auth/index'
 
 export default {
   name: 'auth-nav',
-  computed: {
-    authMenus () {
-      return this.$store.state.app.navList
+  data () {
+    return {
+      authMenus: []
+    }
+  },
+
+  props: {
+    activePath: String
+  },
+
+  methods: {
+    // 获取权限
+    getAuthToNav () {
+      this.$fetch({ url: '/api/auth' }).then(res => {
+        let authData = turnAuthToAllowedAndNav(res.data.authMenus)
+        this.authMenus = authData.navList
+        console.log(this.$store)
+        this.$store.commit('updateAuth', authData.allowedList)
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
-    activePath () {
-      return this.$store.state.app.activePath
+    // 打开tab
+    handleTargetTab (tab) {
+      this.$tab.open(tab)
     }
   },
+
   created () {
-    // console.log(this.$store.state.app)
-  },
-  methods: {
-    handleTargetTab (index) {
-      console.log('[tab]: ', index)
-      this.$tab.open(index)
-    }
+    this.getAuthToNav()
   }
 }
 </script>

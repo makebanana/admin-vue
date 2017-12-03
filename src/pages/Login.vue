@@ -75,7 +75,8 @@ export default {
           title: '登录成功',
           message: `管理员${res.data.name},欢迎回来`
         })
-        this.updateUserAuth(this.$router.push({ path: '/' }))
+
+        this.$router.push({ path: '/' })
       }).catch(err => {
         this.isloading = false
         this.$notify.error({

@@ -2,7 +2,7 @@
   <el-container class="big-wrap">
     <el-aside width="200px"  class="side-wrap">
       <div class="side-logo">logo</div>
-      <AuthNav />
+      <AuthNav :activePath="activePath" />
     </el-aside>
     <el-container>
       <el-header class="header-wrap">
@@ -14,7 +14,7 @@
         </el-dropdown>
       </el-header>
       <el-main class="main-wrap">
-        <path-tabs-view className="min100height" v-model="activePath"></path-tabs-view>
+        <path-tabs-view className="min100height" v-model="activePath" defaultPath="/user/list"></path-tabs-view>
       </el-main>
     </el-container>
   </el-container>
@@ -43,6 +43,7 @@ export default {
       this.$router.push({ name: 'login' })
     }
   }
+
 }
 </script>
 

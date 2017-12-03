@@ -8,12 +8,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './theme/reset.css'
 import fetch from './util/fetch'
 import store from './store/index'
-import PathTabsView from './tabs/index'
+import pathTab from './tab/index'
 
 Vue.prototype.$fetch = fetch
 Vue.use(ElementUI)
-Vue.use(PathTabsView)
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -21,6 +19,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  pathTab,
   template: '<App/>',
   components: { App }
 })

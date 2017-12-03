@@ -18,10 +18,9 @@
 </template>
 
 <script>
-import tabConfig from '@/tab/tabConfig'
 import PathTabs from './tabs'
 import PathTabPane from './tab-pane'
-import Events from '../utils/events'
+import Events from '../../utils/events'
 import pathToRegexp from 'path-to-regexp'
 export default {
   name: 'PathTabsView',
@@ -32,6 +31,7 @@ export default {
   },
 
   props: {
+    defaultPath: String | Object,
     type: {
       type: String,
       default: 'border-card'
@@ -43,27 +43,18 @@ export default {
     className: String
   },
 
-  computed: {
-    activeName: {
-      get () {
-        return this.activePath
-      },
-      set (val) {
-        console.log(val)
-      }
-    }
-  },
-
   data () {
     return {
       activePath: '',
       tabsList: [],
-      noMatch: {
-        path: '/nomatch',
-        name: 'bad path',
-        component: <div>404</div>,
-        closable: true
-      }
+      pathMap: [],
+      noMatch: {}
+    }
+  },
+
+  watch: {
+    activePath (value) {
+      this.$emit('input', value)
     }
   },
 
@@ -72,19 +63,20 @@ export default {
     onTabUpdate (config) {
       // 获取path
       let path = typeof config === 'string' ? config : config.path
+      let realPath = config && config.query ? pathToRegexp.compile(path)(config.query) : path
 
       // 当不存在历史
-      if (!this.tabsList.some(item => item.path === path)) {
+      if (!this.tabsList.some(item => item.path === realPath)) {
         let newTab = this.noMatch
 
         // 判断是否存在路由中
-        if (tabConfig.some(item => item.path === path)) {
+        if (this.pathMap.some(item => item.path === path)) {
           // 获取tab 、注册path
-          newTab = Object.assign({}, tabConfig.filter(item => item.path === path)[0])
+          newTab = Object.assign({}, this.pathMap.filter(item => item.path === path)[0])
 
           // 添加参数
           if (config && config.query) {
-            newTab.path = pathToRegexp.compile(path)(config.query)
+            newTab.path = realPath
             newTab.query = config.query
           }
 
@@ -99,13 +91,7 @@ export default {
         this.tabsList.push(newTab)
         path = newTab.path
       }
-
-      this.activePath = path
-    },
-
-    // 处理path
-    handleTabClick (path) {
-      console.log(path)
+      this.activePath = realPath
     },
 
     // 删除一个tabs
@@ -181,25 +167,17 @@ export default {
         }
       })
       this.tabsList = tabsList
-    },
-
-    // 获取默认未命中页面
-    getNoMatchTab () {
-      let noMatch = tabConfig.filter(item => item.isNoMatch)[0]
-      if (noMatch) { this.noMatch = noMatch }
-    },
-
-    // 打开默认
-    openDefaultTabs () {
-      tabConfig.forEach(item => {
-        if (item.isDefault) {
-          this.onTabUpdate(item.path)
-        }
-      })
     }
   },
 
   created () {
+    this.pathMap = this.$tab.pathMap
+    this.tabsList = this.$tab.defaultTabs
+    this.noMatch = this.$tab.noMatch
+    this.$tab.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
+
+    this.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
+
     // 开始绑定 event 监听函数
     Events.on('PATHTABS_ADD', this.onTabUpdate)
     Events.on('PATHTABS_RELOAD', this.onTabReload)
@@ -207,16 +185,10 @@ export default {
     Events.on('PATHTABS_CLOSEOTHER', this.onTabCloseOther)
     Events.on('PATHTABS_LOOK', this.onTabLock)
     Events.on('PATHTABS_UNLOOK', this.onTabUnlock)
-
-    // 获取404设置
-    this.getNoMatchTab()
-
-    // 打开默认值
-    this.openDefaultTabs()
   },
 
-  beforeUpdate () {
-
+  destroyed () {
+    Events.removeAllListeners()
   }
 }
 </script>

@@ -6,7 +6,9 @@
 
 <script>
 export default {
-  name: 'useradd'
+  name: 'useradd',
+  created () {
+  }
 }
 </script>
 

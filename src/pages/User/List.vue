@@ -31,19 +31,7 @@ export default {
       userList: []
     }
   },
-  created () {
-    this.$fetch({
-      url: '/api/user',
-      data: {
-        pageNo: 1,
-        pageSize: 10
-      }
-    }).then(res => {
-      this.userList = res.data.userList
-    }).catch(err => {
-      console.log('npm run fulldev，不可能出现哈哈哈' + err)
-    })
-  },
+
   methods: {
 
     handleLookDetail (item) {
@@ -56,7 +44,25 @@ export default {
           id: id
         }
       })
+    },
+
+    handleOpenMenus (e) {
+      console.log(e)
     }
+  },
+
+  created () {
+    this.$fetch({
+      url: '/api/user',
+      data: {
+        pageNo: 1,
+        pageSize: 10
+      }
+    }).then(res => {
+      this.userList = res.data.userList
+    }).catch(err => {
+      console.log('npm run fulldev，不可能出现哈哈哈' + err)
+    })
   }
 }
 </script>

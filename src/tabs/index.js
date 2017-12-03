@@ -1,71 +1,64 @@
-import PathTabsView from './src/index'
+import { assert } from './utils/log'
 import Events from './utils/events'
+import install from './src/install'
 
-/* istanbul ignore next */
-PathTabsView.install = function (Vue) {
-  Vue.component(PathTabsView.name, PathTabsView)
-  Vue.mixin({
-    created: function () {
-      const tabPath = this.$attrs.tabPath
-      const tabQuery = this.$attrs.tabQuery
-      const $tab = {}
-      Object.defineProperties($tab, {
-        path: {
-          configurable: false,
-          writable: false,
-          value: tabPath
-        },
-        query: {
-          configurable: false,
-          writable: false,
-          value: tabQuery
-        },
-        open: {
-          configurable: false,
-          writable: false,
-          value: function (config) {
-            Events.emit('PATHTABS_ADD', config)
-          }
-        },
-        reload: {
-          configurable: false,
-          writable: false,
-          value: function (path = tabPath) {
-            Events.emit('PATHTABS_RELOAD', path)
-          }
-        },
-        close: {
-          configurable: false,
-          writable: false,
-          value: function (path = tabPath) {
-            Events.emit('PATHTABS_CLOSE', path)
-          }
-        },
-        closeOther: {
-          configurable: false,
-          writable: false,
-          value: function (path = tabPath) {
-            Events.emit('PATHTABS_CLOSEOTHER', path)
-          }
-        },
-        lock: {
-          configurable: false,
-          writable: false,
-          value: function (path = tabPath) {
-            Events.emit('PATHTABS_LOCK', path)
-          }
-        },
-        unlock: {
-          configurable: false,
-          writable: false,
-          value: function (path = tabPath) {
-            Events.emit('PATHTABS_UNLOCK', tabPath)
-          }
-        }
-      })
-      this.$tab = $tab
+export default class PathTab {
+  constructor (options) {
+    this.pathMap = []
+    this.defaultTabs = []
+    this.defaultPath = ''
+    this.noMatch = {}
+
+    assert(Array.isArray(options.path), 'you should set Array for path')
+    options.path.forEach(item => {
+      item.isLook = Boolean(item.isLook)
+      this.pathMap.push(item)
+
+      if (item.isDefault) {
+        this.defaultTabs.push(item)
+        this.defaultPath = item.path
+      }
+
+      if (item.isNoMatch && !this.noMatch.path) {
+        this.noMatch = item
+      }
+    })
+
+    this.noMatch = this.noMatch.path ? this.noMatch : {
+      path: 'vue_pathtab_nomatch',
+      name: 'can find',
+      component: <div>404</div>,
+      isLock: false
     }
-  })
+  }
+
+  beforeOpen (to, from, next) {
+    next()
+  }
+
+  open (config) {
+    Events.emit('PATHTABS_ADD', config)
+  }
+
+  reload (path = this.path) {
+    Events.emit('PATHTABS_RELOAD', path)
+  }
+
+  close (path = this.path) {
+    Events.emit('PATHTABS_CLOSE', path)
+  }
+
+  closeOther (path = this.path) {
+    Events.emit('PATHTABS_CLOSEOTHER', path)
+  }
+
+  lock (path = this.path) {
+    Events.emit('PATHTABS_LOCK', path)
+  }
+
+  unlock (path = this.path) {
+    Events.emit('PATHTABS_UNLOCK', path)
+  }
 }
 
-export default PathTabsView
+PathTab.install = install

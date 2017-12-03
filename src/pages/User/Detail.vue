@@ -2,7 +2,7 @@
   <div>
     <p>user detail : this.$tab.query = {{$tab.query}}</p>
     <h1>{{ user.name }}</h1>
-    <h2>{{ user.mobile }}</h2>
+    <h2 @click="handleShowPath">{{ user.mobile }}</h2>
   </div>
 
 </template>
@@ -16,6 +16,13 @@ export default {
       user: {}
     }
   },
+
+  methods: {
+    handleShowPath () {
+      console.log(this.$tab.path)
+    }
+  },
+
   created () {
     let { id } = this.$tab.query
     this.id = id

@@ -1,15 +1,19 @@
+import PathTab from '../tabs/index'
+import Vue from 'vue'
+
+Vue.use(PathTab)
 /*
 * tab 显示路由分配
 * 参数说明
 * @params name       tab name
 * @params component  tab component
 */
-const tabConfig = [
+const path = [
   {
     path: '/',
     name: '首页',
     component: r => require.ensure([], () => r(require('@/pages/Center')), 'chunk_center'),
-    closable: false,
+    isLook: false,
     isDefault: true
   },
   {
@@ -95,4 +99,8 @@ const tabConfig = [
   }
 ]
 
-export default tabConfig
+const pathTab = new PathTab({
+  path
+})
+
+export default pathTab

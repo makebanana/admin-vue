@@ -34,9 +34,6 @@
       activeName (value) {
         this.setCurrentName(value)
       },
-      value (value) {
-        this.setCurrentName(value)
-      },
       currentName (value) {
         if (this.$refs.pathNav) {
           this.$nextTick(_ => {
