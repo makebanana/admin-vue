@@ -212,6 +212,7 @@
             on-blur = { () => { removeFocus() } }
             on-click={(ev) => { removeFocus(); onTabClick(pane, tabName, ev) } }
             on-keydown={(ev) => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev) } } }
+            on-contextmenu={ (ev) => { console.log(tabName) } }
           >
             {tabLabelContent}
             {btnClose}

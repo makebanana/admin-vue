@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @contextmenu.prevent="handleOpenMenus">
     <el-table
       :data="userList"
       border
