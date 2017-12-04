@@ -1,6 +1,7 @@
 import { assert } from './utils/log'
 import Events from './utils/events'
 import install from './src/install'
+import ContentMenu from './src/contentmenu'
 
 export default class PathTab {
   constructor (options) {
@@ -8,6 +9,7 @@ export default class PathTab {
     this.defaultTabs = []
     this.defaultPath = ''
     this.noMatch = {}
+    this.menus = null
 
     assert(Array.isArray(options.path), 'you should set Array for path')
     options.path.forEach(item => {
@@ -29,6 +31,10 @@ export default class PathTab {
       name: 'can find',
       component: <div>404</div>,
       isLock: false
+    }
+
+    if (options.contextmenu !== false) {
+      this.menu = new ContentMenu(options.contextmenu)
     }
   }
 

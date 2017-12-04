@@ -152,6 +152,11 @@
       },
       removeFocus () {
         this.isFocus = false
+      },
+      onContextmenu (e, closable, path) {
+        if (!this.$tab.menu) { return }
+        e.preventDefault()
+        this.$tab.menu.showContentmenu(e, closable, path)
       }
     },
 
@@ -172,7 +177,8 @@
         scrollPrev,
         changeTab,
         setFocus,
-        removeFocus
+        removeFocus,
+        onContextmenu
       } = this
       const scrollBtn = scrollable
       ? [
@@ -212,7 +218,7 @@
             on-blur = { () => { removeFocus() } }
             on-click={(ev) => { removeFocus(); onTabClick(pane, tabName, ev) } }
             on-keydown={(ev) => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev) } } }
-            on-contextmenu={ (ev) => { console.log(tabName) } }
+            on-contextmenu={ (ev) => { onContextmenu(ev, closable, tabName) } }
           >
             {tabLabelContent}
             {btnClose}
