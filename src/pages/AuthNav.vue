@@ -37,7 +37,6 @@ export default {
       this.$fetch({ url: '/api/auth' }).then(res => {
         let authData = turnAuthToAllowedAndNav(res.data.authMenus)
         this.authMenus = authData.navList
-        console.log(this.$store)
         this.$store.commit('updateAuth', authData.allowedList)
       }).catch(err => {
         console.log(err)

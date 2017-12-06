@@ -194,7 +194,7 @@
 
         const btnClose = closable
           ? <span class="path-icon-close" on-click={(ev) => { onTabRemove(pane, ev) } }>x</span>
-          : null
+          : <i class="path-tabs__lock"></i>
 
         const tabLabelContent = pane.$slots.label || pane.label
         const tabindex = pane.active ? 0 : -1

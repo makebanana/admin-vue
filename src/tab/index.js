@@ -13,7 +13,7 @@ const path = [
     path: '/',
     name: '首页',
     component: r => require.ensure([], () => r(require('@/pages/Center')), 'chunk_center'),
-    isLook: false,
+    closable: false,
     isDefault: true
   },
   {

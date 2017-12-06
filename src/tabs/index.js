@@ -13,7 +13,7 @@ export default class PathTab {
 
     assert(Array.isArray(options.path), 'you should set Array for path')
     options.path.forEach(item => {
-      item.isLook = Boolean(item.isLook)
+      item.closable = typeof item.closable === 'undefined' ? true : item.closable
       this.pathMap.push(item)
 
       if (item.isDefault) {
@@ -63,6 +63,7 @@ export default class PathTab {
   }
 
   unlock (path = this.path) {
+    console.log(path)
     Events.emit('PATHTABS_UNLOCK', path)
   }
 }
