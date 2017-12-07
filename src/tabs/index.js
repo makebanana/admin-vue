@@ -2,10 +2,12 @@ import { assert } from './utils/log'
 import Events from './utils/events'
 import install from './src/install'
 import ContentMenu from './src/contentmenu'
+import pathToRegexp from 'path-to-regexp'
+import queryString from 'querystring'
 
 export default class PathTab {
   constructor (options) {
-    this.pathMap = []
+    this.pathList = []
     this.defaultTabs = []
     this.defaultPath = ''
     this.noMatch = {}
@@ -14,7 +16,9 @@ export default class PathTab {
     assert(Array.isArray(options.path), 'you should set Array for path')
     options.path.forEach(item => {
       item.closable = typeof item.closable === 'undefined' ? true : item.closable
-      this.pathMap.push(item)
+      item.keys = []
+      item.re = item.path.indexOf(':') > -1 ? pathToRegexp(item.path, item.keys) : null
+      this.pathList.push(item)
 
       if (item.isDefault) {
         this.defaultTabs.push(item)
@@ -27,10 +31,9 @@ export default class PathTab {
     })
 
     this.noMatch = this.noMatch.path ? this.noMatch : {
-      path: 'vue_pathtab_nomatch',
-      name: 'can find',
-      component: <div>404</div>,
-      isLock: false
+      path: '/vue_pathtab_nomatch',
+      title: 'no match',
+      closable: true
     }
 
     if (options.contextmenu !== false) {
@@ -40,6 +43,33 @@ export default class PathTab {
 
   beforeOpen (to, from, next) {
     next()
+  }
+
+  match (path) {
+    assert(typeof path === 'string' && path, 'you should sure path is string without empty')
+    let newTab = this.noMatch
+    let toPath = path.split('?')[0]
+    let query = path.split('?')[1] ? queryString.parse(path.split('?')[1]) : null
+    this.pathList.some(item => {
+      if (item.re) {
+        if (item.re.exec(toPath)) {
+          newTab = Object.assign({}, item, { path: toPath, params: {}, query })
+          item.re.exec(path).forEach((param, i) => {
+            if (!i) { return }
+            newTab.params[item.keys[i - 1].name] = param
+          })
+
+          return true
+        }
+      }
+
+      if (toPath === item.path) {
+        newTab = Object.assign({}, item, { query })
+        return true
+      }
+    })
+
+    return newTab
   }
 
   open (config) {
@@ -65,6 +95,11 @@ export default class PathTab {
   unlock (path = this.path) {
     console.log(path)
     Events.emit('PATHTABS_UNLOCK', path)
+  }
+
+  setTitle (name, path = this.path) {
+    if (!path) { return }
+    Events.emit('PATHTABS_SETTITLE', name, path)
   }
 }
 

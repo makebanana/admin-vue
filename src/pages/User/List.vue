@@ -35,15 +35,9 @@ export default {
   methods: {
 
     handleLookDetail (item) {
-      let { name, id } = item
+      let { id } = item
 
-      this.$tab.open({
-        path: '/user/:id',
-        name: '用户详情: ' + name,
-        query: {
-          id: id
-        }
-      })
+      this.$tab.open('/user/' + id)
     },
 
     handleOpenMenus (e) {

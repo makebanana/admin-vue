@@ -8,13 +8,13 @@
       </el-input>
     </div>
     <div>
-      <el-input placeholder="输入tab名称" class="input-wrap" v-model="tabName">
-        <template slot="prepend">tabName</template>
+      <el-input placeholder="输入需要传递的query : isShare=1&isFrom=app" class="input-wrap" v-model="tabQuery">
+        <template slot="prepend">tabQuery</template>
       </el-input>
     </div>
     <div>
       <el-button type="primary" @click="handleUpdateTab">添加tab</el-button>
-      <el-button type="primary" @click="handleUnlockTab">解除本页的锁定</el-button>
+      <el-button v-if="isLocked" type="primary" @click="handleUnlockTab">解除本页的锁定</el-button>
     </div>
   </div>
 
@@ -27,21 +27,17 @@ export default {
   data () {
     return {
       demoId: null,
-      tabName: null
+      tabQuery: null,
+      isLocked: true
     }
   },
 
   methods: {
     handleUpdateTab () {
-      let { demoId, tabName } = this
-
-      this.$tab.open({
-        path: '/user/:id',
-        name: tabName,
-        query: {
-          id: demoId
-        }
-      })
+      let { demoId, tabQuery } = this
+      let queryStr = tabQuery ? tabQuery.indexOf('?') > -1 ? tabQuery : `?${tabQuery}` : ''
+      let path = `/user/${demoId}${queryStr}`
+      this.$tab.open(path)
     },
 
     handleOpenUserList () {
@@ -50,6 +46,7 @@ export default {
 
     handleUnlockTab () {
       this.$tab.unlock()
+      this.isLocked = false
     }
   },
 

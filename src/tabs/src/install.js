@@ -20,6 +20,7 @@ export default function install (Vue) {
     get () {
       this._pathTabRoot._pathTab.path = this.$attrs.tabPath
       this._pathTabRoot._pathTab.query = this.$attrs.tabQuery
+      this._pathTabRoot._pathTab.params = this.$attrs.tabParams
       return this._pathTabRoot._pathTab
     }
   })
