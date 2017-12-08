@@ -69,7 +69,6 @@ export default class ContentMenu {
   }
 
   clickOutside = (e) => {
-    console.log(1123)
     if (e.srcElement.parentNode === this.ulNode) { return }
     this.hideContentmenu()
   }

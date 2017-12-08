@@ -1,7 +1,6 @@
 import { assert } from './utils/log'
 import Events from './utils/events'
 import install from './src/install'
-import ContentMenu from './src/contentmenu'
 import pathToRegexp from 'path-to-regexp'
 import queryString from 'querystring'
 
@@ -11,7 +10,7 @@ export default class PathTab {
     this.defaultTabs = []
     this.defaultPath = ''
     this.noMatch = {}
-    this.menus = null
+    this.menu = options.contextmenu
 
     assert(Array.isArray(options.path), 'you should set Array for path')
     options.path.forEach(item => {
@@ -34,10 +33,6 @@ export default class PathTab {
       path: '/vue_pathtab_nomatch',
       title: 'no match',
       closable: true
-    }
-
-    if (options.contextmenu !== false) {
-      this.menu = new ContentMenu(options.contextmenu)
     }
   }
 
@@ -93,7 +88,6 @@ export default class PathTab {
   }
 
   unlock (path = this.path) {
-    console.log(path)
     Events.emit('PATHTABS_UNLOCK', path)
   }
 

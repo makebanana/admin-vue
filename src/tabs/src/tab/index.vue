@@ -21,6 +21,7 @@
 import PathTabs from './tabs'
 import PathTabPane from './tab-pane'
 import Events from '../../utils/events'
+import ContentMenu from '../contentmenu'
 import './tab.css'
 export default {
   name: 'PathTabsView',
@@ -46,10 +47,7 @@ export default {
   data () {
     return {
       activePath: '',
-      tabsList: [],
-      pathMap: [],
-      noMatch: {},
-      menu: null
+      tabsList: []
     }
   },
 
@@ -174,6 +172,10 @@ export default {
     this.$tab.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
     this.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
 
+    if (this.$tab.menus !== false) {
+      this.$tab.menu = new ContentMenu(this.$tab.menu)
+    }
+
     // 开始绑定 event 监听函数
     Events.on('PATHTABS_ADD', this.onTabUpdate)
     Events.on('PATHTABS_RELOAD', this.onTabReload)
@@ -187,8 +189,6 @@ export default {
   destroyed () {
     Events.removeAllListeners()
     this.$tab.menu && this.$tab.menu.destroy()
-    console.log(this.$tab)
-    console.log(this.$tab.menu)
   }
 }
 </script>
