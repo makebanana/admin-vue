@@ -172,7 +172,7 @@ export default {
     this.$tab.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
     this.defaultPath && this.onTabUpdate(this.$tab.defaultPath)
 
-    if (this.$tab.menus !== false) {
+    if (this.$tab.menu instanceof ContentMenu === false && this.$tab.menu !== false) {
       this.$tab.menu = new ContentMenu(this.$tab.menu)
     }
 
@@ -189,6 +189,7 @@ export default {
   destroyed () {
     Events.removeAllListeners()
     this.$tab.menu && this.$tab.menu.destroy()
+    this.$tab.menu = undefined
   }
 }
 </script>
