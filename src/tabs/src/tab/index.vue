@@ -125,6 +125,15 @@ export default {
 
     onTabCloseOther (path) {
       this.tabsList = this.tabsList.filter(item => item.path === path || !item.closable)
+      if (path) {
+        this.activePath = path
+        return
+      }
+
+      let tabLength = this.tabsList.length
+      if (tabLength) {
+        this.activePath = this.tabsList[tabLength - 1].path
+      }
     },
 
     onTabLock (path) {
