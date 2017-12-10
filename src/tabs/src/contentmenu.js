@@ -10,7 +10,6 @@ export default class ContentMenu {
   }
 
   init () {
-    if (!document.addEventListener) { return }
     let isZh = navigator.language.indexOf('zh') > -1
     this.menu = document.createElement('div')
     this.menu.className = 'path-tabs__contentmenu'
