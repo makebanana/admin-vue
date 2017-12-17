@@ -1,4 +1,4 @@
-import PathTab from '../tabs/index'
+import PathTab from '../../index'
 import Vue from 'vue'
 
 Vue.use(PathTab)

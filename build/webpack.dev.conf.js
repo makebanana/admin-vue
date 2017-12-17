@@ -7,11 +7,10 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin' )
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
-const mockService = require('../service/index')
 
 // 启动mockSerivce
 if (process.env.MOCK_SEVICE_HOST) {
-  mockService(process.env.MOCK_SEVICE_HOST)
+  require('../service/index')(process.env.MOCK_SEVICE_HOST)
 }
 
 const devWebpackConfig = merge(baseWebpackConfig, {
