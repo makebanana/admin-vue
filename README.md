@@ -1,8 +1,8 @@
 
 # backend-vue
 
-### 后台管理系统 多开tab 解决方案
->  - 保存每一个tab的状态
+### 基于 element-ui vue-path-tab 后台管理系统 解决方案
+> - 保存每一个tab的状态
 > - 可以在任意情况下，打开一个tab，也可任意关闭（还有刷新、关闭其他）
 > - 添加了 contentmenu ，像浏览器多开tab一样，快捷操作
 
