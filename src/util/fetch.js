@@ -13,7 +13,7 @@ export default function fetch (options) {
       timeout: 4000,
       headers: {
         'authorization': sessionStorage.getItem('V_accessToken'),
-        'Content-Type': 'application/json'
+        'Content-Type': options.contentType ? options.contentType : 'application/json'
       }
     })
     /**
