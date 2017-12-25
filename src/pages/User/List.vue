@@ -20,6 +20,13 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @current-change="handleCurrentChange"
+      :current-page="pageNo"
+      :page-size="10"
+      layout="total, prev, pager, next"
+      :total="recordTotal">
+    </el-pagination>
   </div>
 </template>
 
@@ -28,11 +35,29 @@ export default {
   name: 'userlist',
   data () {
     return {
-      userList: []
+      userList: [],
+      pageNo: 1,
+      recordTotal: 0
     }
   },
 
   methods: {
+
+    getList () {
+      this.$fetch({
+        url: '/api/user',
+        data: {
+          pageNo: this.pageNo,
+          pageSize: 10
+        }
+      }).then(res => {
+        this.userList = res.data.userList
+        this.page = res.data.pageNo
+        this.recordTotal = res.data.recordTotal
+      }).catch(err => {
+        console.log('npm run fulldev，不可能出现哈哈哈' + err)
+      })
+    },
 
     handleLookDetail (item) {
       let { id } = item
@@ -40,23 +65,16 @@ export default {
       this.$tab.open('/user/' + id)
     },
 
-    handleOpenMenus (e) {
-      console.log(e)
+    handleCurrentChange (page) {
+      console.log(page, this.pageNo)
+      if (this.pageNo === page) { return }
+      this.pageNo = page
+      this.getList()
     }
   },
 
   created () {
-    this.$fetch({
-      url: '/api/user',
-      data: {
-        pageNo: 1,
-        pageSize: 10
-      }
-    }).then(res => {
-      this.userList = res.data.userList
-    }).catch(err => {
-      console.log('npm run fulldev，不可能出现哈哈哈' + err)
-    })
+    this.getList()
   }
 }
 </script>

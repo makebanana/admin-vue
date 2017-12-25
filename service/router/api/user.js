@@ -49,6 +49,7 @@ module.exports = router.get('user', async (ctx) => {
     data: {
       userList: userData,
       pageNo: 1,
+      recordTotal: 100,
       pageCount: userData.length,
       resultCount: userData.length
     }
