@@ -11,7 +11,7 @@
 - 保持每一个tab的状态，脱离router，keep-alive 困扰
 - 每个tab 可以配备 关闭、刷新、关闭其他
 
-![active](http://upload-images.jianshu.io/upload_images/5611290-d0bc1afdd45a3881.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![active](http://upload-images.jianshu.io/upload_images/5611290-d61249d4cae3dc77.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 ## Build Setup
