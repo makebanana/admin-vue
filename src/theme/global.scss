@@ -1,5 +1,39 @@
 @import "reset";
 
+// flex-box
+.flex-box{
+  display: flex;
+
+  .flex-1{
+    flex: 1;
+  }
+  .flex-2{
+    flex: 2;
+  }
+  .flex-3{
+    flex: 3;
+  }
+  .flex-4{
+    flex: 4;
+  }
+  .flex-5{
+    flex: 5;
+  }
+  .flex-6{
+    flex: 6;
+  }
+}
+// 面包屑
+.el-breadcrumb{
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+// 表单
+.el-form{
+  margin-top: 30px;
+  width: 450px;
+}
 // 分页
 .el-pagination{
   margin-top: 20px;
