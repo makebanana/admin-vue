@@ -50,7 +50,6 @@ export default {
         if (valid) {
           this.userLogin()
         } else {
-          console.log('error submit!!')
           this.isloading = false
           return false
         }
@@ -98,7 +97,7 @@ export default {
     margin: -90px 0 0 -200px;
     padding: 20px 50px 0 0;
     width: 400px;
-    height: 180px;
+    height: 250px;
     border: 1px solid #d9d9d9;
 
     .login-button{

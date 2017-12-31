@@ -26,22 +26,25 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="拍摄记录" prop="produce">
-        <div class="produce-box flex-box">
-          {{selectedList.length ? selectedList.map(item => item.name).join(',') : '请选择拍摄的相片'}}
-
-        </div>
-        <div class="produce-select-box">
-          <span
-            v-for="(pic, i) in produceList"
-            :class="pic.checked ? 'checked' : ''"
-            @click.stop="handleChoosePic(i)">
-            {{pic.name}}
-          </span>
-          <div>
-            <button type="button" name="button">新增</button>
-            <button type="button" name="button">关闭</button>
+        <div class="produce-box" v-for="(pic, index) in user.produce">
+          <el-cascader
+            expand-trigger="hover"
+            :options="produceList"
+            v-model="pic.id">
+          </el-cascader>
+          <el-date-picker
+            class="take-picker"
+            type="datetime"
+            placeholder="拍摄时间"
+            v-model="pic.time"
+            format="yyyy-MM-dd HH:mm">
+          </el-date-picker>
+          <div class="control-box">
+            <el-button @click="handleAddPic"><i class="el-icon-circle-plus-outline"></i></el-button>
+            <el-button v-if="user.produce.length !== 1" @click="handleRemovePic(index)"><i class="el-icon-remove-outline"></i></el-button>
           </div>
         </div>
+
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input type="textarea" v-model="user.remark"></el-input>
@@ -67,7 +70,12 @@ export default {
         sex: 'woman',
         birth: '',
         from: 'wx',
-        produce: '',
+        produce: [
+          {
+            id: [],
+            time: ''
+          }
+        ],
         remark: ''
       },
       rules: {
@@ -81,19 +89,18 @@ export default {
           { required: true, message: '请选择活动资源', trigger: 'change' }
         ]
       },
-      selectedList: [],
       produceList: [
         {
-          id: 123,
-          name: '相片1'
+          value: 123,
+          label: '相片1'
         },
         {
-          id: 124,
-          name: '相片2'
+          value: 124,
+          label: '相片2'
         },
         {
-          id: 125,
-          name: '相片3'
+          value: 125,
+          label: '相片3'
         }
       ]
     }
@@ -103,32 +110,38 @@ export default {
   },
 
   methods: {
-    // 选择拍摄相片
-    handleChoosePic (index) {
-      let produceList = this.produceList
-      produceList[index].checked = !produceList[index].checked
 
-      this.produceList = produceList
-      this.selectedList = this.produceList.filter(item => item.checked)
-      this.user.produce = this.selectedList.map(item => item.id).join(',')
+    // 新增一个产品选择
+    handleAddPic () {
+      let selectedList = this.user.produce
+      selectedList.push({
+        id: [],
+        time: ''
+      })
+
+      this.user.produce = selectedList
     },
 
     // 移除摸个相片
     handleRemovePic (index) {
-      let selectedList = this.selectedList
-      let id = selectedList[index].id
+      if (this.user.produce.length === 1) {
+        this.$message('至少填写一条记录')
+        return
+      }
+      let selectedList = this.user.produce
 
       selectedList.splice(index, 1)
       this.selectedList = selectedList
+    },
 
-      this.produceList.some(item => {
-        if (item.id === id) {
-          item.checked = false
-          return true
-        }
-      })
+    // 选择拍摄相片
+    handleChangePic (index, value) {
+      console.log(arguments)
+    },
 
-      this.user.produce = this.selectedList.map(item => item.id).join(',')
+    // 选择拍摄时间
+    handleChangeTime (index) {
+      console.log(index)
     },
 
     // 提交表单
@@ -153,46 +166,35 @@ export default {
 
 <style lang="scss">
 .produce-box{
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  min-height: 40px;
+  position: relative;
+  margin-bottom: 10px;
 
-
-}
-.produce-select-box{
-  position: absolute;
-  bottom: 44px;
-  left: 0;
-  padding: 4px 4px 8px 8px;
-  width: 100%;
-  min-height: 60px;
-  background-color: #fff;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  box-shadow: 2px 0px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
-
-  span{
-    margin: 4px 4px 0 0;
-    padding: 4px 8px;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all .3s;
-
-    &.checked{
-      color: #fff;
-      background-color: #20a0ff;
-    }
-
-    &:hover{
-      padding: 4px 12px;
-    }
+  .take-picker{
+    width: 180px;
   }
 
-  div{
+  .control-box{
     position: absolute;
-    right: 80px;
+    right: 0;
+    top: 0;
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
 
+    button{
+      margin-left: 0;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border: none;
+
+      i{
+        font-size: 30px;
+        color: #b3b3b3;
+      }
+    }
   }
 }
+
 </style>
