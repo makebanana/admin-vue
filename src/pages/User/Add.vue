@@ -2,10 +2,10 @@
   <div>
     <el-form :model="user" :rules="rules" ref="user" label-width="100px">
       <el-form-item label="名称" prop="name">
-        <el-input v-model="user.name"></el-input>
+        <el-input  v-model="user.name"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
-        <el-input v-model="user.name"></el-input>
+        <el-input class="take-picker" type="number" v-model="user.mobile"></el-input>
       </el-form-item>
 
       <el-form-item label="性别" prop="sex">
@@ -33,7 +33,6 @@
             v-model="pic.id">
           </el-cascader>
           <el-date-picker
-            class="take-picker"
             type="datetime"
             placeholder="拍摄时间"
             v-model="pic.time"
@@ -41,7 +40,7 @@
           </el-date-picker>
           <div class="control-box">
             <el-button @click="handleAddPic"><i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button v-if="user.produce.length !== 1" @click="handleRemovePic(index)"><i class="el-icon-remove-outline"></i></el-button>
+            <el-button v-if="index !== 0" @click="handleRemovePic(index)"><i class="el-icon-remove-outline"></i></el-button>
           </div>
         </div>
 
@@ -63,6 +62,23 @@ export default {
   name: 'useradd',
 
   data () {
+    let validateMobile = (rule, value, callback) => {
+      if (!/^1[34578]\d{9}$/.test(value)) {
+        callback(new Error('请正确的手机号'))
+      } else {
+        callback()
+      }
+    }
+
+    let validateProduce = (rule, value, callback) => {
+      let noEmpty = value.filter(item => item.id.length && item.time)
+      if (noEmpty.length !== value.length) {
+        callback(new Error('请选择完整的拍摄相片以及拍摄时间'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       user: {
         name: '',
@@ -83,10 +99,12 @@ export default {
           { required: true, message: '请输入活动名称', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入正确的手机号码', trigger: 'blur' }
+          { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
+          { validator: validateMobile, trigger: 'blur' }
         ],
         produce: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
+          { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
+          { validator: validateProduce, trigger: 'blur' }
         ]
       },
       produceList: [
@@ -134,18 +152,9 @@ export default {
       this.selectedList = selectedList
     },
 
-    // 选择拍摄相片
-    handleChangePic (index, value) {
-      console.log(arguments)
-    },
-
-    // 选择拍摄时间
-    handleChangeTime (index) {
-      console.log(index)
-    },
-
     // 提交表单
     submitForm (formName) {
+      console.log(this.user)
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert('submit!')
@@ -165,12 +174,15 @@ export default {
 </script>
 
 <style lang="scss">
+.el-input__inner{
+  width: 190px;
+}
 .produce-box{
   position: relative;
   margin-bottom: 10px;
 
   .take-picker{
-    width: 180px;
+    width: 190px;
   }
 
   .control-box{
