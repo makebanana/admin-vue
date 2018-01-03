@@ -29,6 +29,32 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
 }
+// 顶部搜索控制
+.top-control{
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+
+  .el-input{
+    max-width: 150px;
+  }
+
+  .select-input{
+    max-width: 230px;
+
+    .el-select{
+      width: 90px;
+    }
+  }
+
+  .top-searct-submit{
+    margin-left: 50px;
+  }
+
+  .right-box{
+    text-align: right;
+  }
+}
 // 表单
 .el-form{
   margin-top: 30px;

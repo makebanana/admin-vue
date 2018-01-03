@@ -2,12 +2,14 @@
   <div>
     <el-form :model="user" :rules="rules" ref="user" label-width="100px">
       <el-form-item label="名称" prop="name">
-        <el-input  v-model="user.name"></el-input>
+        <el-input  v-model="user.name" placeholder="请输入用户名称"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
-        <el-input class="take-picker" type="number" v-model="user.mobile"></el-input>
+        <el-input class="take-picker" type="number" v-model="user.mobile" placeholder="请输入用户联系方式"></el-input>
       </el-form-item>
-
+      <el-form-item label="微信号" prop="mobile">
+        <el-input class="take-picker" v-model="user.wechat" placeholder="请输入用户微信号"></el-input>
+      </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-radio-group v-model="user.sex" size="small">
           <el-radio-button label="woman">女士</el-radio-button>
@@ -46,7 +48,7 @@
 
       </el-form-item>
       <el-form-item label="备注" prop="remark">
-        <el-input type="textarea" v-model="user.remark"></el-input>
+        <el-input type="textarea" v-model="user.remark" placeholder="备注帮助你更好的记住这个用户"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('user')">立即创建</el-button>
@@ -59,7 +61,7 @@
 
 <script>
 export default {
-  name: 'useradd',
+  name: 'useredit',
 
   data () {
     let validateMobile = (rule, value, callback) => {
@@ -83,6 +85,7 @@ export default {
       user: {
         name: '',
         mobile: '',
+        wechat: '',
         sex: 'woman',
         birth: '',
         from: 'wx',
