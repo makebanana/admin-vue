@@ -17,7 +17,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="生日" prop="birth">
-        <el-date-picker type="date" placeholder="选择生日" v-model="user.birth" style="width: 100%;"></el-date-picker>
+        <el-date-picker type="date" placeholder="选择生日" v-model="user.birth"></el-date-picker>
       </el-form-item>
       <el-form-item label="来源" prop="from">
         <el-radio-group v-model="user.from" size="small">
@@ -99,14 +99,14 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
+          { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         mobile: [
           { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
           { validator: validateMobile, trigger: 'blur' }
         ],
         produce: [
-          { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
+          { required: true, message: '请添加管理相片', trigger: 'blur' },
           { validator: validateProduce, trigger: 'blur' }
         ]
       },
