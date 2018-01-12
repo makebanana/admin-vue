@@ -93,6 +93,7 @@
 <script>
 export default {
   name: 'userlist',
+
   data () {
     return {
       userList: [],

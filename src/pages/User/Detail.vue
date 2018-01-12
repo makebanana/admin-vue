@@ -59,11 +59,7 @@
           </div>
         </div>
         <div class="produce-box">
-          <el-cascader
-            expand-trigger="hover"
-            :options="produceList"
-            v-model="addPic.id">
-          </el-cascader>
+          <PicTypeSelect v-model="addPic.id"></PicTypeSelect>
           <el-date-picker
             type="datetime"
             placeholder="拍摄时间"
@@ -83,8 +79,15 @@
 </template>
 
 <script>
+import PicTypeSelect from '@/components/PicTypeSelect'
+
 export default {
   name: 'userdetail',
+
+  components: {
+    PicTypeSelect
+  },
+
   data () {
     let validateMobile = (rule, value, callback) => {
       if (!/^1[34578]\d{9}$/.test(value)) {
@@ -100,7 +103,7 @@ export default {
       user: {},
       tempUser: {},
       addPic: {
-        id: '',
+        id: [],
         time: ''
       },
       isEdit: false,
@@ -112,21 +115,7 @@ export default {
           { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
           { validator: validateMobile, trigger: 'blur' }
         ]
-      },
-      produceList: [
-        {
-          value: 123,
-          label: '相片1'
-        },
-        {
-          value: 124,
-          label: '相片2'
-        },
-        {
-          value: 125,
-          label: '相片3'
-        }
-      ]
+      }
     }
   },
 
@@ -152,7 +141,6 @@ export default {
       this.isEdit = false
     },
 
-    // 提交表单
     submitForm (formName) {
       console.log(this.user)
       this.$refs[formName].validate(valid => {
@@ -163,8 +151,7 @@ export default {
           return false
         }
       })
-    },
-
+    }
   },
 
   created () {

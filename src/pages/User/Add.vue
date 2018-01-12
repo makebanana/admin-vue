@@ -132,7 +132,6 @@ export default {
 
   methods: {
 
-    // 新增一个产品选择
     handleAddPic () {
       let selectedList = this.user.produce
       selectedList.push({
@@ -143,7 +142,6 @@ export default {
       this.user.produce = selectedList
     },
 
-    // 移除摸个相片
     handleRemovePic (index) {
       if (this.user.produce.length === 1) {
         this.$message('至少填写一条记录')
@@ -155,7 +153,6 @@ export default {
       this.selectedList = selectedList
     },
 
-    // 提交表单
     submitForm (formName) {
       console.log(this.user)
       this.$refs[formName].validate(valid => {

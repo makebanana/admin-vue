@@ -1,46 +1,20 @@
+import fetch from '@/util/fetch'
+import formatLevel from '@/util/formatLevel'
+
 const picType = {
   state: {
+    isLoad: false,
     list: [],
     listMap: {}
   },
 
   mutations: {
 
-    // 数据规范化  type只有两层
-    formatList (data) {
-      let list = []
-      let listMap = {}
-      data.forEach(item => {
-        if (item.parentId === 0) {
-          if (listMap[item.id]) {
-            item.children = listMap[item.id][0].children
-            list[listMap[item.id][0]] = item
-          } else {
-            item.children = []
-            list.push(item)
-            listMap[item.id] = [list.length - 1]
-          }
-        } else {
-          let map = listMap[item.parentId]
-          if (!map) {
-            list.push({
-              children: [item]
-            })
-            listMap[item.parentId] = [list.length - 1]
-            listMap[item.id] = [list.length - 1, 0]
-          } else {
-            list[map[0]].children.push(item)
-            listMap[item.id] = [map[0], list[map[0]].children - 1]
-          }
-        }
-      })
-      return [list, listMap]
-    },
-
     update (state, data) {
-      let formatReturn = this.formatList(data)
+      let formatReturn = formatLevel(data)
       state.list = formatReturn[0]
       state.listMap = formatReturn[1]
+      state.isLoad = true
     },
 
     add (state, data) {
@@ -78,16 +52,16 @@ const picType = {
   actions: {
 
     getType ({ commit }) {
-      this.$fetch({
-        url: '/api/type'
+      fetch({
+        url: '/api/pic/type'
       }).then(res => {
-        commit('update', res.data.type)
+        commit('update', res.data.typeList)
       })
     },
 
     addType ({ commit }, label) {
-      this.$fetch({
-        url: '/api/type',
+      fetch({
+        url: '/api/pic/type',
         type: 'POST',
         data: {
           label
@@ -101,8 +75,8 @@ const picType = {
     },
 
     editType ({ commit }, { label, id }) {
-      this.$fetch({
-        url: '/api/type/' + id,
+      fetch({
+        url: '/api/pic/type/' + id,
         type: 'PUT',
         data: {
           label
@@ -116,8 +90,8 @@ const picType = {
     },
 
     delType ({ commit }, id) {
-      this.$fetch({
-        url: '/api/type/' + id,
+      fetch({
+        url: '/api/pic/type/' + id,
         type: 'DELETE'
       }).then(res => {
         commit('del', id)

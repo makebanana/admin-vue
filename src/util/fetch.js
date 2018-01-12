@@ -4,10 +4,10 @@ const loadingOption = {
   target: '.main-wrap',
   text: '加载中...'
 }
-let loadingInstance = null
 export default function fetch (options) {
-  let beforeCb = options.beforeCb || function loadingBegin () { loadingInstance = Loading.service(loadingOption) }
-  let completeCb = options.completeCb || function loadingEnd () { loadingInstance.close() }
+  let loadingInstance = null
+  let beforeCb = options.beforeCb || function loadingBegin () { console.log('begin'); loadingInstance = Loading.service(loadingOption) }
+  let completeCb = options.completeCb || function loadingEnd () { console.log('end'); loadingInstance.close() }
   return new Promise((resolve, reject) => {
     let instance = axios.create({
       timeout: 4000,

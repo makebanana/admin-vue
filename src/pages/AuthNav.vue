@@ -21,6 +21,7 @@ import turnAuthToAllowedAndNav from '@/auth/index'
 
 export default {
   name: 'auth-nav',
+
   data () {
     return {
       authMenus: []
@@ -32,7 +33,7 @@ export default {
   },
 
   methods: {
-    // 获取权限
+
     getAuthToNav () {
       this.$fetch({ url: '/api/auth' }).then(res => {
         let authData = turnAuthToAllowedAndNav(res.data.authMenus)
@@ -43,7 +44,6 @@ export default {
       })
     },
 
-    // 打开tab
     handleTargetTab (tab) {
       this.$tab.open(tab)
     }

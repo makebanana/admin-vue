@@ -26,6 +26,7 @@ import AuthNav from './AuthNav'
 // need to do, keep alive tab
 export default {
   name: 'index',
+
   data () {
     return {
       activePath: ''
@@ -43,7 +44,6 @@ export default {
       this.$router.push({ name: 'login' })
     }
   }
-
 }
 </script>
 
