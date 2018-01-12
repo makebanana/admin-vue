@@ -4,8 +4,8 @@ const loadingOption = {
   target: '.main-wrap',
   text: '加载中...'
 }
-let loadingInstance = null
 export default function fetch (options) {
+  let loadingInstance = null
   let beforeCb = options.beforeCb || function loadingBegin () { loadingInstance = Loading.service(loadingOption) }
   let completeCb = options.completeCb || function loadingEnd () { loadingInstance.close() }
   return new Promise((resolve, reject) => {
