@@ -21,7 +21,8 @@ export default function fetch (options) {
     */
     instance.interceptors.request.use(config => {
     // 在发送请求之前做些什么
-      if (config.method === 'get') {
+      config.method = options.type || 'GET'
+      if (config.method === 'GET') {
         config.params = config.data
       }
       beforeCb()
