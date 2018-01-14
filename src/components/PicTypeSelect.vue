@@ -1,12 +1,12 @@
 <template>
   <el-cascader
-    expand-trigger="hover"
     @active-item-change="handleItemChange"
     @change="handleChange"
     :options="produceList"
-    :children="children"
+    :props="props"
     :value="value"
-    v-model="value">
+    v-model="selected"
+    clearable>
   </el-cascader>
 </template>
 
@@ -18,19 +18,38 @@ export default {
     value: {
       type: Array,
       default: []
+    },
+    selectPic: {
+      type: Boolean,
+      default: false
     }
   },
 
   data () {
     return {
+      props: {
+        value: 'id'
+      },
       selected: [],
-      children: 'children'
+      picList: []
     }
   },
 
   computed: {
     produceList () {
-      return this.$store.state.picType.list
+      let list = this.$store.state.picType.list
+      if (this.selectPic) {
+        list.forEach(a => {
+          a.children.forEach(b => {
+            b.children = []
+          })
+        })
+      }
+      return list
+    },
+
+    listMap () {
+      return this.$store.state.picType.listMap
     }
   },
 
@@ -43,7 +62,7 @@ export default {
   methods: {
 
     handleItemChange (item) {
-      console.log(item)
+      console.log(this.produceList)
       this.$emit('active-item-change', item)
     },
 

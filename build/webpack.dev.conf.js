@@ -10,7 +10,7 @@ const portfinder = require('portfinder')
 
 // 启动mockSerivce
 if (process.env.MOCK_SEVICE_HOST) {
-  require('../service/index')(process.env.MOCK_SEVICE_HOST)
+  require('../service/app')(process.env.MOCK_SEVICE_HOST)
 }
 
 const devWebpackConfig = merge(baseWebpackConfig, {

@@ -6,12 +6,12 @@ const path = require('path')
 let mockService = {}
 if (process.env.MOCK_SEVICE_HOST) {
   mockService = {
-    '/api': {
-      target: `http://127.0.0.1:${process.env.MOCK_SEVICE_HOST}/api`,
+    '/server': {
+      target: `http://127.0.0.1:${process.env.MOCK_SEVICE_HOST}/server`,
       changeOrigin: true,
       logLevel: 'debug',
       pathRewrite:{
-          '^/api/(.*)': '$1'
+          '^/server/(.*)': '$1'
       },
       proxyTimeout: 40000
     }

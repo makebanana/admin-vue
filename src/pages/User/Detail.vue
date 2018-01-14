@@ -125,7 +125,7 @@ export default {
       let { id } = this.$tab.params
       this.id = id
       this.$fetch({
-        url: '/api/user/' + id
+        url: '/server/user/' + id
       }).then(res => {
         this.user = res.data.user
         this.tempUser = res.data.user
@@ -156,6 +156,13 @@ export default {
 
   created () {
     this.getUserData()
+
+    setTimeout(() => {
+      this.$store.dispatch('addType', {
+        parentId: 0,
+        label: '1232'
+      })
+    }, 2000)
   }
 }
 </script>

@@ -6,8 +6,8 @@ const loadingOption = {
 }
 export default function fetch (options) {
   let loadingInstance = null
-  let beforeCb = options.beforeCb || function loadingBegin () { console.log('begin'); loadingInstance = Loading.service(loadingOption) }
-  let completeCb = options.completeCb || function loadingEnd () { console.log('end'); loadingInstance.close() }
+  let beforeCb = options.beforeCb || function loadingBegin () { loadingInstance = Loading.service(loadingOption) }
+  let completeCb = options.completeCb || function loadingEnd () { loadingInstance.close() }
   return new Promise((resolve, reject) => {
     let instance = axios.create({
       timeout: 4000,
@@ -21,7 +21,8 @@ export default function fetch (options) {
     */
     instance.interceptors.request.use(config => {
     // 在发送请求之前做些什么
-      if (config.method === 'get') {
+      config.method = options.type || 'GET'
+      if (config.method === 'GET') {
         config.params = config.data
       }
       beforeCb()

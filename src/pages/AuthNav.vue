@@ -35,8 +35,8 @@ export default {
   methods: {
 
     getAuthToNav () {
-      this.$fetch({ url: '/api/auth' }).then(res => {
-        let authData = turnAuthToAllowedAndNav(res.data.authMenus)
+      this.$fetch({ url: '/server/auth' }).then(res => {
+        let authData = turnAuthToAllowedAndNav(res.data.auth)
         this.authMenus = authData.navList
         this.$store.commit('updateAuth', authData.allowedList)
       }).catch(err => {

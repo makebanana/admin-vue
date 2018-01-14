@@ -118,7 +118,7 @@ export default {
 
     getList () {
       this.$fetch({
-        url: '/api/user',
+        url: '/server/user',
         data: this.ajaxData
       }).then(res => {
         this.userList = res.data.userList
