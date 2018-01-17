@@ -4,10 +4,12 @@
     @change="handleChange"
     :options="produceList"
     :props="props"
+    :filterable="filterable"
     :value="value"
     v-model="selected"
     clearable>
   </el-cascader>
+
 </template>
 
 <script>
@@ -15,13 +17,17 @@ export default {
   name: 'PicTypeSelect',
 
   props: {
+    filterable: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: Array,
       default: []
     },
     selectPic: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
 
@@ -31,29 +37,30 @@ export default {
         value: 'id'
       },
       selected: [],
-      picList: []
+      picObj: {
+        id: null,
+        list: []
+      }
     }
   },
 
   computed: {
+
     produceList () {
       let list = this.$store.state.picType.list
-      if (this.selectPic) {
+      if (this.selectPic && list.length) {
         list.forEach(a => {
           a.children.forEach(b => {
-            b.children = []
+            this.$set(b, 'children', b.id === this.picObj.id ? this.picObj.list : [])
           })
         })
       }
       return list
-    },
-
-    listMap () {
-      return this.$store.state.picType.listMap
     }
   },
 
   watch: {
+
     selected (value) {
       this.$emit('input', value)
     }
@@ -61,14 +68,55 @@ export default {
 
   methods: {
 
+    getPicList (typeId) {
+      this.$fetch({
+        url: 'server/user'
+      }).then(res => {
+        res.data.userList.forEach(item => {
+          item.label = item.name
+        })
+
+        this.upDateSelect({
+          id: typeId,
+          list: res.data.userList
+        })
+      })
+      // this.picObj = {
+      //   id: typeId,
+      //   list: [
+      //     {
+      //       id: 222,
+      //       label: '2313'
+      //     }
+      //   ]
+      // }
+    },
+
+    upDateSelect (obj) {
+      this.picObj = obj
+    },
+
     handleItemChange (item) {
-      console.log(this.produceList)
       this.$emit('active-item-change', item)
+
+      if (item.length === 2) {
+        this.getPicList(item[1])
+      }
     },
 
     handleChange (value) {
-      console.log(value)
-      this.$emit('change', value)
+      let returnItem = {}
+      if (this.picObj.id) {
+        let selectedId = value[2]
+
+        this.picObj.list.some(pic => {
+          if (pic.id === selectedId) {
+            returnItem = pic
+            return true
+          }
+        })
+      }
+      this.$emit('change', value, returnItem)
     }
   },
 

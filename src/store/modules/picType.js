@@ -3,7 +3,6 @@ import formatLevel from '@/util/formatLevel'
 
 const picType = {
   state: {
-    isLoad: false,
     history: [],
     list: [],
     listMap: {}
@@ -16,7 +15,6 @@ const picType = {
       state.history = data
       state.list = formatReturn[0]
       state.listMap = formatReturn[1]
-      state.isLoad = true
     },
 
     add ({ history }, data) {

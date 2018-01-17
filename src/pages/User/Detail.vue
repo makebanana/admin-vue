@@ -56,6 +56,7 @@
           <div class="pic-item">
             <img src="ddd" alt="">
             <p>xxxx</p>
+            <i></i>
           </div>
         </div>
         <div class="produce-box">
@@ -67,10 +68,7 @@
             format="yyyy-MM-dd HH:mm">
           </el-date-picker>
           <div class="control-box">
-            <el-button-group>
-              <el-button type="primary" icon="el-icon-circle-plus-outline"></el-button>
-              <el-button type="primary" icon="el-icon-remove-outline"></el-button>
-            </el-button-group>
+            <el-button type="primary" >提交</el-button>
           </div>
         </div>
       </div>
@@ -156,13 +154,6 @@ export default {
 
   created () {
     this.getUserData()
-
-    setTimeout(() => {
-      this.$store.dispatch('addType', {
-        parentId: 0,
-        label: '1232'
-      })
-    }, 2000)
   }
 }
 </script>
@@ -215,20 +206,6 @@ export default {
     height: 40px;
     line-height: 40px;
     text-align: right;
-
-    button{
-      margin-left: 0;
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      border: none;
-
-      i{
-        font-size: 30px;
-        color: #b3b3b3;
-      }
-    }
   }
 }
 </style>

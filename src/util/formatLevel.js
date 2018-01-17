@@ -22,7 +22,7 @@ export default function formatList (data) {
         listMap[item.id] = [list.length - 1, 0]
       } else {
         list[map[0]].children.push(item)
-        listMap[item.id] = [map[0], list[map[0]].children - 1]
+        listMap[item.id] = [map[0], list[map[0]].children.length - 1]
       }
     }
   })
