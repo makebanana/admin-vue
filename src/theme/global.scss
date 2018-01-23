@@ -3,6 +3,7 @@
 // flex-box
 .flex-box{
   display: flex;
+  flex-wrap: wrap;
 
   .flex-1{
     flex: 1;

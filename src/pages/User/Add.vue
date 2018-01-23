@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: 'useredit',
+  name: 'UserAE',
 
   data () {
     let validateMobile = (rule, value, callback) => {

@@ -37,6 +37,7 @@
     </el-row>
     <el-table
       :data="userList"
+      stripe
       @sort-change="handleSortList"
       style="width: 100%">
       <el-table-column
@@ -92,7 +93,7 @@
 
 <script>
 export default {
-  name: 'userlist',
+  name: 'Userlist',
 
   data () {
     return {

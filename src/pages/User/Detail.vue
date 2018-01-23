@@ -49,14 +49,44 @@
         </el-form>
       </div>
     </el-col>
-    <el-col :span="13">
+    <el-col :span="13" v-show="!isEdit">
       <div class="user-pic">
-        <p>拍摄记录</p>
+        <h3>拍摄记录</h3>
         <div class="selected-box">
           <div class="pic-item">
             <img src="ddd" alt="">
             <p>xxxx</p>
-            <i></i>
+            <el-button type="danger">移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
+          </div>
+          <div class="pic-item">
+            <img src="ddd" alt="">
+            <p>xxxx</p>
+            <el-button type="danger" >移除</el-button>
           </div>
         </div>
         <div class="produce-box">
@@ -190,22 +220,68 @@ export default {
   padding: 20px;
   min-height: 416px;
   border: 1px solid #ddd;
-}
-.produce-box{
-  position: relative;
-  margin-bottom: 10px;
 
-  .take-picker{
-    width: 190px;
+  h3{
+    margin-bottom: 10px;
   }
 
-  .control-box{
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 40px;
-    line-height: 40px;
-    text-align: right;
+  .selected-box{
+    display: flex;
+    flex-wrap: wrap;
+
+    .pic-item{
+      position: relative;
+      margin: 0 10px 10px 0;
+      width: 150px;
+      height: 170px;
+      border: 1px solid #ddd;
+      overflow: hidden;
+
+      img{
+        display: block;
+        width: 148px;
+        height: 148px;
+      }
+
+      p{
+        line-height: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      button{
+        position: absolute;
+        bottom: 0;
+        transform: translateY(40px);
+        width: 100%;
+        transition: all .3s;
+        border-radius: 0;
+      }
+
+      &:hover{
+        button{
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  .produce-box{
+    position: relative;
+    margin-bottom: 10px;
+
+    .take-picker{
+      width: 190px;
+    }
+
+    .control-box{
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px;
+      line-height: 40px;
+      text-align: right;
+    }
   }
 }
+
 </style>
