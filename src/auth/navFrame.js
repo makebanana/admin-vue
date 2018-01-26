@@ -1,6 +1,7 @@
 const navFrame = [
   {
     name: '相片管理',
+    logo: 'el-icon-picture-outline',
     child: [
       {
         name: '新增相片',
@@ -18,6 +19,7 @@ const navFrame = [
   },
   {
     name: '用户管理',
+    logo: 'el-icon-mobile-phone',
     child: [
       {
         name: '新增用户',
@@ -31,6 +33,7 @@ const navFrame = [
   },
   {
     name: '活动管理',
+    logo: 'el-icon-date',
     child: [
       {
         name: '新增活动',
@@ -44,6 +47,7 @@ const navFrame = [
   },
   {
     name: '消息管理',
+    logo: 'el-icon-message',
     child: [
       {
         name: '系统消息',
@@ -57,6 +61,7 @@ const navFrame = [
   },
   {
     name: '数据分析',
+    logo: 'el-icon-printer',
     child: [
       {
         name: '相片分析',
@@ -70,6 +75,7 @@ const navFrame = [
   },
   {
     name: '系统设置',
+    logo: 'el-icon-setting',
     path: '/manager'
   }
 ]

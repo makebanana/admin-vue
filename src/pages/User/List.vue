@@ -14,7 +14,7 @@
             <el-option label="微信号" value="2"></el-option>
           </el-select>
         </el-input>
-        <el-select v-model="search.from" placeholder="请选择来源" size="small" name="from">
+        <el-select v-model="search.from" class="selectItem" placeholder="请选择来源" size="small" name="from">
           <el-option label="微信" value="wx"></el-option>
           <el-option label="美团" value="mt"></el-option>
           <el-option label="推广" value="tg"></el-option>
@@ -32,7 +32,7 @@
           @click="handleResetSearch">重置</el-button>
       </el-col>
       <el-col :span="4" class="right-box">
-        <el-button type="primary" size="mini" icon="el-icon-plus">新增用户</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleToAdd">新增用户</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -186,6 +186,10 @@ export default {
           message: '删除成功!'
         })
       })
+    },
+
+    handleToAdd () {
+      this.$tab.open('/user/add')
     }
   },
 

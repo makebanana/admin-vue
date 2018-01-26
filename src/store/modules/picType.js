@@ -84,7 +84,7 @@ const picType = {
     },
 
     addType ({ commit }, { parentId, label }) {
-      fetch({
+      return fetch({
         url: '/server/pic/type',
         type: 'POST',
         data: {
@@ -101,7 +101,7 @@ const picType = {
     },
 
     editType ({ commit }, { label, id }) {
-      fetch({
+      return fetch({
         url: '/server/pic/type/' + id,
         type: 'PUT',
         data: {
@@ -116,7 +116,7 @@ const picType = {
     },
 
     delType ({ commit }, id) {
-      fetch({
+      return fetch({
         url: '/server/pic/type/' + id,
         type: 'DELETE'
       }).then(res => {

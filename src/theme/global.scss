@@ -1,4 +1,5 @@
 @import "reset";
+@import "button";
 
 // flex-box
 .flex-box{
@@ -22,6 +23,16 @@
   }
   .flex-6{
     flex: 6;
+  }
+}
+
+// 撑起整个tab
+.path-tabs--border-card.min100height{
+  display: flex;
+  flex-direction: column;
+
+  .path-tabs__content{
+    flex: 1;
   }
 }
 // 面包屑
@@ -56,10 +67,7 @@
     text-align: right;
   }
 }
-// 时间选择
-.el-input.el-input--suffix{
-  width: 190px;
-}
+
 // 表单
 .el-form{
   margin-top: 30px;
@@ -68,4 +76,15 @@
 // 分页
 .el-pagination{
   margin-top: 20px;
+}
+
+// 190width
+.select-item{
+  height: 32px;
+  width: 150px;
+
+  .el-input__inner{
+    height: 32px;
+    width: 150px;
+  }
 }

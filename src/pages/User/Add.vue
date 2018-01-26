@@ -29,11 +29,7 @@
       </el-form-item>
       <el-form-item label="拍摄记录" prop="produce">
         <div class="produce-box" v-for="(pic, index) in user.produce">
-          <el-cascader
-            expand-trigger="hover"
-            :options="produceList"
-            v-model="pic.id">
-          </el-cascader>
+          <PicTypeSelect v-model="pic.id" />
           <el-date-picker
             type="datetime"
             placeholder="拍摄时间"
@@ -60,8 +56,14 @@
 </template>
 
 <script>
+import PicTypeSelect from '@/components/PicTypeSelect'
+
 export default {
   name: 'UserAE',
+
+  components: {
+    PicTypeSelect
+  },
 
   data () {
     let validateMobile = (rule, value, callback) => {
@@ -109,21 +111,7 @@ export default {
           { required: true, message: '请添加管理相片', trigger: 'blur' },
           { validator: validateProduce, trigger: 'blur' }
         ]
-      },
-      produceList: [
-        {
-          value: 123,
-          label: '相片1'
-        },
-        {
-          value: 124,
-          label: '相片2'
-        },
-        {
-          value: 125,
-          label: '相片3'
-        }
-      ]
+      }
     }
   },
 

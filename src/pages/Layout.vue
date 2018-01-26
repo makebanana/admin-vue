@@ -1,7 +1,9 @@
 <template>
   <el-container class="big-wrap">
     <el-aside width="200px"  class="side-wrap">
-      <div class="side-logo">logo</div>
+      <div class="side-logo">
+        <div></div>
+      </div>
       <AuthNav :activePath="activePath" />
     </el-aside>
     <el-container>
@@ -55,11 +57,19 @@ export default {
       background-color: #404040;
 
       .side-logo{
+        padding: 15px 20px;
         width: 200px;
         height: 60px;
         line-height: 60px;
         text-align: center;
         color: #fff;
+
+        div{
+          width: 160px;
+          height: 30px;
+          background-color: #333;
+          border-radius: 4px;
+        }
       }
     }
 

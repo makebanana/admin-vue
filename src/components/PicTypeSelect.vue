@@ -6,7 +6,9 @@
     :props="props"
     :filterable="filterable"
     :value="value"
+    :change-on-select="changeOnSelect"
     v-model="selected"
+    placeholder="请选择相片分类"
     clearable>
   </el-cascader>
 
@@ -27,7 +29,11 @@ export default {
     },
     selectPic: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    changeOnSelect: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -81,15 +87,6 @@ export default {
           list: res.data.userList
         })
       })
-      // this.picObj = {
-      //   id: typeId,
-      //   list: [
-      //     {
-      //       id: 222,
-      //       label: '2313'
-      //     }
-      //   ]
-      // }
     },
 
     upDateSelect (obj) {
@@ -121,9 +118,12 @@ export default {
   },
 
   created () {
+    console.log(123)
     if (!this.$store.state.picType.isLoad) {
       this.$store.dispatch('getType')
     }
+
+    console.log(this.changeOnSelect)
   }
 }
 </script>
