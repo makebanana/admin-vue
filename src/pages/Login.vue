@@ -37,12 +37,14 @@ import md5 from 'js-md5'
 // 用户能够管理的权限获取， sessionStorage
 export default {
   name: 'login',
+
   data () {
     return {
       isloading: false,
       form: {}
     }
   },
+
   methods: {
     onSubmit (loginForm) {
       this.isloading = true
@@ -50,18 +52,19 @@ export default {
         if (valid) {
           this.userLogin()
         } else {
-          console.log('error submit!!')
           this.isloading = false
           return false
         }
       })
     },
+
     updateUserAuth (cb) {
       this.$store.dispatch('updateAuthAsync', cb)
     },
+
     userLogin () {
       this.$fetch({
-        url: '/api/login',
+        url: '/server/login',
         type: 'post',
         data: {
           mobile: this.form.name,
@@ -98,7 +101,7 @@ export default {
     margin: -90px 0 0 -200px;
     padding: 20px 50px 0 0;
     width: 400px;
-    height: 180px;
+    height: 250px;
     border: 1px solid #d9d9d9;
 
     .login-button{

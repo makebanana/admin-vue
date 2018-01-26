@@ -1,6 +1,90 @@
 @import "reset";
+@import "button";
 
+// flex-box
+.flex-box{
+  display: flex;
+  flex-wrap: wrap;
+
+  .flex-1{
+    flex: 1;
+  }
+  .flex-2{
+    flex: 2;
+  }
+  .flex-3{
+    flex: 3;
+  }
+  .flex-4{
+    flex: 4;
+  }
+  .flex-5{
+    flex: 5;
+  }
+  .flex-6{
+    flex: 6;
+  }
+}
+
+// 撑起整个tab
+.path-tabs--border-card.min100height{
+  display: flex;
+  flex-direction: column;
+
+  .path-tabs__content{
+    flex: 1;
+  }
+}
+// 面包屑
+.el-breadcrumb{
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+// 顶部搜索控制
+.top-control{
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+
+  .el-input{
+    max-width: 150px;
+  }
+
+  .select-input{
+    max-width: 230px;
+
+    .el-select{
+      width: 90px;
+    }
+  }
+
+  .top-searct-submit{
+    margin-left: 50px;
+  }
+
+  .right-box{
+    text-align: right;
+  }
+}
+
+// 表单
+.el-form{
+  margin-top: 30px;
+  max-width: 600px;
+}
 // 分页
 .el-pagination{
   margin-top: 20px;
+}
+
+// 190width
+.select-item{
+  height: 32px;
+  width: 150px;
+
+  .el-input__inner{
+    height: 32px;
+    width: 150px;
+  }
 }
