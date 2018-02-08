@@ -36,7 +36,7 @@
       </el-col>
     </el-row>
     <el-table
-      :data="userList"
+      :data="customers"
       stripe
       @sort-change="handleSortList"
       style="width: 100%">
@@ -97,7 +97,7 @@ export default {
 
   data () {
     return {
-      userList: [],
+      customers: [],
       recordTotal: 0,
       search: {
         searchType: '0',
@@ -119,10 +119,10 @@ export default {
 
     getList () {
       this.$fetch({
-        url: '/server/user',
+        url: '/server/customer',
         data: this.ajaxData
       }).then(res => {
-        this.userList = res.data.userList
+        this.customers = res.data.customers
         this.recordTotal = res.data.recordTotal
         this.ajaxData.page = res.data.pageNo
       }).catch(err => {

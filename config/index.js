@@ -3,11 +3,9 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-let mockService = {}
-if (process.env.MOCK_SEVICE_HOST) {
-  mockService = {
+let mockService = {
     '/server': {
-      target: `http://127.0.0.1:${process.env.MOCK_SEVICE_HOST}/server`,
+      target: `http://127.0.0.1:${process.env.MOCK_SEVICE_HOST || 9999}/server`,
       changeOrigin: true,
       logLevel: 'debug',
       pathRewrite:{
@@ -16,7 +14,6 @@ if (process.env.MOCK_SEVICE_HOST) {
       proxyTimeout: 40000
     }
   }
-}
 
 module.exports = {
   dev: {

@@ -39,7 +39,7 @@ const path = [
   {
     path: '/photo/add',
     title: '新增相片',
-    component: r => require.ensure([], () => r(require('@/pages/Photo/List')), 'chunk_photo_add')
+    component: r => require.ensure([], () => r(require('@/pages/Photo/Add')), 'chunk_photo_add')
   },
   {
     path: '/photo/list',

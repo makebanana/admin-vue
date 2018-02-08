@@ -15,6 +15,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ali-oss": "^4.12.2",
     "axios": "^0.17.1",
     "element-ui": "^2.0.4",
     "js-md5": "^0.7.2",
