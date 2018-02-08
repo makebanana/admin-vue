@@ -80,12 +80,8 @@ export default {
         })
 
         this.$router.push({ path: '/' })
-      }).catch(err => {
+      }).catch(_ => {
         this.isloading = false
-        this.$notify.error({
-          title: '登录出错',
-          message: err.message || '登录失败'
-        })
       })
     }
   }

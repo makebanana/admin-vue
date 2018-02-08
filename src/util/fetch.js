@@ -30,7 +30,7 @@ export default function fetch (options) {
     }, error => {
       Notification.error({
         title: '提示',
-        message: '数据处理失败：' + error
+        message: '数据处理失败：' + error.massege
       })
       // 对请求错误做些什么
       completeCb()
@@ -65,7 +65,7 @@ export default function fetch (options) {
         return
       }
 
-      Notification.error({
+      !options.noTips && Notification.error({
         title: '提示',
         message: response.data.message || '处理失败'
       })

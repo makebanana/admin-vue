@@ -115,9 +115,6 @@ export default {
     }
   },
 
-  created () {
-  },
-
   methods: {
 
     handleAddPic () {

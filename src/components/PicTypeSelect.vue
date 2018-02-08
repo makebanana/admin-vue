@@ -118,12 +118,9 @@ export default {
   },
 
   created () {
-    console.log(123)
     if (!this.$store.state.picType.isLoad) {
       this.$store.dispatch('getType')
     }
-
-    console.log(this.changeOnSelect)
   }
 }
 </script>
