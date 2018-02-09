@@ -15,6 +15,7 @@ const picType = {
       state.history = data
       state.list = formatReturn[0]
       state.listMap = formatReturn[1]
+      state.isLoad = true
     },
 
     add ({ history }, data) {

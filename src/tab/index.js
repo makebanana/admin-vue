@@ -95,6 +95,16 @@ const path = [
     path: '/manager',
     title: '管理员管理',
     component: r => require.ensure([], () => r(require('@/pages/System/Manager')), 'chunk_system_manager')
+  },
+  {
+    path: '/manager/:id',
+    title: '管理员详情',
+    component: r => require.ensure([], () => r(require('@/pages/System/Manager')), 'chunk_system_manager')
+  },
+  {
+    path: '/manager/add',
+    title: '新增管理员',
+    component: r => require.ensure([], () => r(require('@/pages/System/Manager')), 'chunk_system_manager')
   }
 ]
 

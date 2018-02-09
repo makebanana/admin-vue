@@ -90,7 +90,7 @@
           </div>
         </div>
         <div class="produce-box">
-          <PicTypeSelect v-model="addPic.id"></PicTypeSelect>
+          <PicTypeSelect v-model="addPic.id" selectPic></PicTypeSelect>
           <el-date-picker
             type="datetime"
             placeholder="拍摄时间"
@@ -149,7 +149,7 @@ export default {
 
   methods: {
 
-    getUserData () {
+    _getUserData () {
       let { id } = this.$tab.params
       this.id = id
       this.$fetch({
@@ -183,7 +183,7 @@ export default {
   },
 
   created () {
-    this.getUserData()
+    this._getUserData()
   }
 }
 </script>
