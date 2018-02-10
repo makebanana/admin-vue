@@ -59,7 +59,7 @@
 import PicTypeSelect from '@/components/PicTypeSelect'
 
 export default {
-  name: 'UserAE',
+  name: 'UserAdd',
 
   components: {
     PicTypeSelect
@@ -104,11 +104,9 @@ export default {
           { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         mobile: [
-          { message: '请输入正确的手机号码', trigger: 'blur' },
           { validator: validateMobile, trigger: 'blur' }
         ],
         produce: [
-          { required: true, message: '请添加管理相片', trigger: 'blur' },
           { validator: validateProduce, trigger: 'blur' }
         ]
       }

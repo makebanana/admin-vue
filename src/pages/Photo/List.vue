@@ -88,7 +88,7 @@
 import PicTypeSelect from '@/components/PicTypeSelect'
 
 export default {
-  name: 'Userlist',
+  name: 'PhotoList',
 
   components: {
     PicTypeSelect

@@ -11,30 +11,22 @@
       @sort-change="handleSortList"
       style="width: 100%">
       <el-table-column
-        prop="mobile"
-        label="手机号码">
-      </el-table-column>
-      <el-table-column
         prop="name"
         label="名称">
       </el-table-column>
       <el-table-column
+        prop="mobile"
+        label="手机号码">
+      </el-table-column>
+      <el-table-column
         prop="lastLoginTime"
         sortable="custom"
-        label="最后登录时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.lastLoginTime }}</span>
-        </template>
+        label="最后登录">
       </el-table-column>
       <el-table-column
         prop="createTime"
         sortable="custom"
         label="创建时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
-        </template>
       </el-table-column>
       <el-table-column
         label="操作"
@@ -109,25 +101,31 @@ export default {
       this._getList()
     },
 
-    handleLookDetail ({ id }) {
-      this.$tab.open('/manage/' + id)
+    handleLookDetail ({ _id }) {
+      this.$tab.open('/manager/' + _id)
     },
 
-    handleDel ({ name, id }) {
+    handleDel ({ name, _id }) {
       this.$confirm(`确定要删除管理员 ${name}?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        return this.$fetch({
+          url: '/server/manager/' + _id,
+          type: 'DELETE'
+        })
+      }).then(() => {
         this.$message({
           type: 'success',
           message: '删除成功!'
         })
+        this.$tab.reload()
       })
     },
 
     handleToAdd () {
-      this.$tab.open('/manage/add')
+      this.$tab.open('/manager/add')
     }
   },
 

@@ -9,7 +9,7 @@
         <p>生日: <span>{{user.birth}}</span></p>
         <p>来源: <span>{{user.from}}</span></p>
         <p>备注: <span>{{user.remark}}</span></p>
-        <el-button class="edit-btn" @click="handleEdit">编辑</el-button>
+        <el-button class="edit-btn" @click="handleOpenAndCloseEdit">编辑</el-button>
       </div>
       <div v-show="isEdit">
         <el-form :model="tempUser" :rules="rules" ref="user" label-width="100px">
@@ -44,7 +44,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('user')">提交</el-button>
-            <el-button @click="handleCancelEdit">取消</el-button>
+            <el-button @click="handleOpenAndCloseEdit">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -110,7 +110,7 @@
 import PicTypeSelect from '@/components/PicTypeSelect'
 
 export default {
-  name: 'userdetail',
+  name: 'UserDetail',
 
   components: {
     PicTypeSelect
@@ -127,7 +127,6 @@ export default {
 
     return {
       id: null,
-      title: null,
       user: {},
       tempUser: {},
       addPic: {
@@ -161,12 +160,8 @@ export default {
       })
     },
 
-    handleEdit () {
-      this.isEdit = true
-    },
-
-    handleCancelEdit () {
-      this.isEdit = false
+    handleOpenAndCloseEdit () {
+      this.isEdit = !this.isEdit
     },
 
     submitForm (formName) {

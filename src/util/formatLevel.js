@@ -1,11 +1,11 @@
 // 数据规范化  type只有两层
-export default function formatList (data) {
+export default function formatLevel (data) {
   let list = []
   let listMap = {}
   data.forEach(item => {
     if (item.parentId === 0) {
       if (listMap[item.id]) {
-        item.children = listMap[item.id][0].children
+        item.children = list[listMap[item.id][0]].children
         list[listMap[item.id][0]] = item
       } else {
         item.children = []

@@ -93,7 +93,7 @@
 
 <script>
 export default {
-  name: 'Userlist',
+  name: 'UserList',
 
   data () {
     return {

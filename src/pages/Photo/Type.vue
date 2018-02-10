@@ -67,7 +67,7 @@
 
 <script>
 export default {
-  name: 'Userlist',
+  name: 'PhotoType',
 
   data () {
     return {
