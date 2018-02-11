@@ -15,6 +15,7 @@ const picType = {
       state.history = data
       state.list = formatReturn[0]
       state.listMap = formatReturn[1]
+      state.isLoad = true
     },
 
     add ({ history }, data) {
@@ -28,9 +29,9 @@ const picType = {
       let itemMap = listMap[data.id]
 
       if (itemMap.length === 1) {
-        tempList[itemMap[0]].name = data.name
+        tempList[itemMap[0]].label = data.label
       } else {
-        tempList[itemMap[0]].children[itemMap[1]].name = data.name
+        tempList[itemMap[0]].children[itemMap[1]].label = data.label
       }
 
       list = tempList
@@ -46,30 +47,10 @@ const picType = {
     },
 
     del ({ list, listMap, history }, tid) {
-      let tempList = list
-      let tempHistroy = history
       let id = parseInt(tid)
-      let itemMap = listMap[id]
+      history = history.filter(type => type.id !== id)
 
-      if (itemMap.length === 1) {
-        tempList.splice(itemMap[0], 1)
-      } else {
-        tempList[itemMap[0]].children.splice(itemMap[1], 1)
-      }
-
-      list = tempList
-      delete listMap[id]
-
-      let index = null
-      tempHistroy.some((item, i) => {
-        if (item.id === id) {
-          index = i
-          return true
-        }
-      })
-
-      delete tempHistroy[index]
-      history = tempHistroy
+      this.commit('update', history)
     }
   },
 
@@ -95,7 +76,8 @@ const picType = {
         commit('add', {
           id: res.data.id,
           label,
-          parentId
+          parentId,
+          count: 0
         })
       })
     },

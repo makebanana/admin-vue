@@ -11,7 +11,7 @@
           <span>{{parent.label}}</span>
 
           <el-tooltip content="删除大分类" placement="top">
-            <i class="el-icon-delete" style="float: right; margin-left: 10px;" @click="handleOpenEditor(parent)"></i>
+            <i class="el-icon-delete" style="float: right; margin-left: 10px;" @click="handleDel(parent)"></i>
           </el-tooltip>
           <el-tooltip content="编辑大分类" placement="top">
             <i class="el-icon-edit" style="float: right; margin-left: 10px;" @click="handleOpenEditor(parent)"></i>
@@ -31,7 +31,7 @@
           <tbody>
             <tr v-for="type in parent.children" :key="type.id" class="text item">
               <td>{{type.label}}</td>
-              <td>{{type.count}}1</td>
+              <td>{{type.count}}</td>
               <td>
                 <el-tooltip content="编辑分类" placement="top">
                   <i class="el-icon-edit" @click="handleOpenEditor(type)"></i>
@@ -52,9 +52,7 @@
       :visible.sync="isOpenEditor"
       width="300px">
       <el-form :model="tempType">
-        <el-form-item label="分类名称">
-          <el-input v-model="tempType.label" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-input v-model="tempType.label" auto-complete="off" placeholder="分类名称"></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isOpenEditor = false">取 消</el-button>
@@ -67,7 +65,7 @@
 
 <script>
 export default {
-  name: 'Userlist',
+  name: 'PhotoType',
 
   data () {
     return {
@@ -94,11 +92,6 @@ export default {
           message: '新增成功!'
         })
         this.isOpenEditor = false
-      }).catch(() => {
-        this.$message({
-          type: 'error',
-          message: '新增失败!'
-        })
       })
     },
 
@@ -112,11 +105,6 @@ export default {
           message: '删除成功!'
         })
         this.isOpenEditor = false
-      }).catch(() => {
-        this.$message({
-          type: 'error',
-          message: '新增失败!'
-        })
       })
     },
 
@@ -133,7 +121,7 @@ export default {
       if (!this.tempType.label) {
         this.$message({
           type: 'error',
-          message: '删除成功!'
+          message: '请填写分类名称!'
         })
         return
       }
@@ -141,7 +129,7 @@ export default {
       if (this.tempType.id) {
         this._edit(this.tempType.id, this.tempType.label)
       } else {
-        this._edit(this.tempType.parentId, this.tempType.label)
+        this._add(this.tempType.parentId, this.tempType.label)
       }
     },
 
@@ -157,12 +145,7 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
-      }).catch(() => {
-        this.$message({
-          type: 'error',
-          message: '删除失败!'
-        })
-      })
+      }).catch(() => {})
     }
   },
 
@@ -173,6 +156,9 @@ export default {
 </script>
 
 <style lang="scss">
+.el-input__inner{
+  width: 100%;
+}
 .type-card{
   margin-right: 30px;
   margin-bottom: 30px;

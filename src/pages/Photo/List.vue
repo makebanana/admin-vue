@@ -88,7 +88,7 @@
 import PicTypeSelect from '@/components/PicTypeSelect'
 
 export default {
-  name: 'Userlist',
+  name: 'PhotoList',
 
   components: {
     PicTypeSelect
@@ -116,7 +116,7 @@ export default {
 
   methods: {
 
-    getList () {
+    _getList () {
       this.$fetch({
         url: '/server/user',
         data: this.ajaxData
@@ -132,24 +132,24 @@ export default {
     handleCurrentChange (page) {
       if (this.ajaxData.pageNo === page) { return }
       this.ajaxData.pageNo = page
-      this.getList()
+      this._getList()
     },
 
-    handleSortList (data) {
+    handleSortList ({ prop, order }) {
       let sortCode = ''
 
-      if (data.prop === 'createTime') {
-        sortCode = data.order === 'ascending' ? 1 : ''
+      if (prop === 'createTime') {
+        sortCode = order === 'ascending' ? 1 : ''
       }
 
-      if (data.prop === 'customerCount') {
-        sortCode = data.order === 'ascending' ? 3 : 2
+      if (prop === 'customerCount') {
+        sortCode = order === 'ascending' ? 3 : 2
       }
 
       if (sortCode === this.ajaxData.sort) { return }
 
       this.ajaxData.sort = sortCode
-      this.getList()
+      this._getList()
     },
 
     handleSearch () {
@@ -159,7 +159,7 @@ export default {
       this.ajaxData.pageNo = 1
       this.ajaxData.recordTotal = 0
 
-      this.getList()
+      this._getList()
     },
 
     handleResetSearch () {
@@ -168,14 +168,12 @@ export default {
       this.search.tid = []
     },
 
-    handleLookDetail (item) {
-      let { id } = item
-
+    handleLookDetail ({ id }) {
       this.$tab.open('/user/' + id)
     },
 
-    handleDel (item) {
-      this.$confirm(`确定要删除 ${item.name}?`, '提示', {
+    handleDel ({ name, id }) {
+      this.$confirm(`确定要删除 ${name}?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -193,14 +191,7 @@ export default {
   },
 
   created () {
-    this.getList()
+    this._getList()
   }
 }
 </script>
-
-<style lang="scss">
- .input-wrap{
-   margin: 20px 0;
-   width: 400px;
- }
-</style>

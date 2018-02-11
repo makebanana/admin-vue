@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-form :model="user" :rules="rules" ref="user" label-width="100px">
-      <el-form-item label="名称" prop="name">
-        <el-input  v-model="user.name" placeholder="请输入用户名称"></el-input>
+      <el-form-item label="姓名" prop="name">
+        <el-input  v-model="user.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
-        <el-input class="take-picker" type="number" v-model="user.mobile" placeholder="请输入用户联系方式"></el-input>
+        <el-input class="take-picker" v-model="user.mobile" placeholder="请输入联系方式"></el-input>
       </el-form-item>
-      <el-form-item label="微信号" prop="mobile">
-        <el-input class="take-picker" v-model="user.wechat" placeholder="请输入用户微信号"></el-input>
+      <el-form-item label="微信号" prop="wechat">
+        <el-input class="take-picker" v-model="user.wechat" placeholder="请输入微信号"></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-radio-group v-model="user.sex" size="small">
@@ -29,7 +29,7 @@
       </el-form-item>
       <el-form-item label="拍摄记录" prop="produce">
         <div class="produce-box" v-for="(pic, index) in user.produce">
-          <PicTypeSelect v-model="pic.id" />
+          <PicTypeSelect v-model="pic.id" selectPic/>
           <el-date-picker
             type="datetime"
             placeholder="拍摄时间"
@@ -59,7 +59,7 @@
 import PicTypeSelect from '@/components/PicTypeSelect'
 
 export default {
-  name: 'UserAE',
+  name: 'UserAdd',
 
   components: {
     PicTypeSelect
@@ -67,7 +67,7 @@ export default {
 
   data () {
     let validateMobile = (rule, value, callback) => {
-      if (!/^1[34578]\d{9}$/.test(value)) {
+      if (value && !/^1[34578]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
       } else {
         callback()
@@ -104,11 +104,9 @@ export default {
           { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
           { validator: validateMobile, trigger: 'blur' }
         ],
         produce: [
-          { required: true, message: '请添加管理相片', trigger: 'blur' },
           { validator: validateProduce, trigger: 'blur' }
         ]
       }

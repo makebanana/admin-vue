@@ -74,7 +74,7 @@ export default {
 
   methods: {
 
-    getPicList (typeId) {
+    _getPicList (typeId) {
       this.$fetch({
         url: 'server/user'
       }).then(res => {
@@ -97,7 +97,7 @@ export default {
       this.$emit('active-item-change', item)
 
       if (item.length === 2) {
-        this.getPicList(item[1])
+        this._getPicList(item[1])
       }
     },
 
@@ -118,6 +118,7 @@ export default {
   },
 
   created () {
+    console.log(this)
     if (!this.$store.state.picType.isLoad) {
       this.$store.dispatch('getType')
     }
