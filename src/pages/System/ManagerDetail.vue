@@ -124,7 +124,6 @@ export default {
       this.$fetch({
         url: '/server/auth/list'
       }).then(res => {
-
         this.tempManager.auth.forEach(selectId => {
           res.data.auth.some((auth) => {
             if (auth._id === selectId) {
@@ -178,7 +177,7 @@ export default {
           url: '/server/manager/' + this.id,
           type: 'PUT',
           data: data
-        }).then(res => {
+        }).then(() => {
           this.$tab.reload()
         })
       })
