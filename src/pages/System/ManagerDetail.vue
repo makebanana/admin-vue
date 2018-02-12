@@ -83,24 +83,15 @@ export default {
       authList: [],
       isEdit: false,
       rules: {
-        name: [
-          { required: true, message: '请输入客户名称', trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, validator: validateMobile, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
-        ],
-        auth: [
-          { required: true, validator: validateAuth, trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请输入客户名称', trigger: 'blur' }],
+        mobile: [{ required: true, validator: validateMobile, trigger: 'blur' }],
+        password: [{ required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+        auth: [{ required: true, validator: validateAuth, trigger: 'blur' }]
       }
     }
   },
 
   methods: {
-
     _getDetail () {
       let { id } = this.$tab.params
       this.id = id

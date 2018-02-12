@@ -5,7 +5,7 @@
         <el-input  v-model="pic.name" placeholder="请输入用户名称"></el-input>
       </el-form-item>
       <el-form-item label="分类" prop="type">
-        <PicTypeSelect selectPic v-model="pic.type" />
+        <PicTypeSelect v-model="pic.type" />
       </el-form-item>
       <el-form-item label="简介" prop="intro">
         <el-input type="textarea" v-model="pic.intro" placeholder="相片简介"></el-input>
@@ -23,8 +23,8 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('user')">立即创建</el-button>
-        <el-button @click="resetForm('user')">重置</el-button>
+        <el-button type="primary" @click="submitForm('pic')">立即创建</el-button>
+        <el-button @click="resetForm('pic')">重置</el-button>
       </el-form-item>
     </el-form>
     <el-dialog :visible.sync="dialogVisible">
@@ -45,31 +45,29 @@ export default {
   },
 
   data () {
+    let validateArray = (rule, value, callback) => {
+      if (value.length) {}
+      return value.length ? callback() : callback(new Error(rule.message))
+    }
+
     return {
       pic: {
         name: '',
         type: [],
         intro: '',
-        pictures: ''
+        pictures: []
       },
       dialogVisible: false,
       dialogImageUrl: '',
       rules: {
-        name: [
-          { required: true, message: '请输入相片名称', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请选择相片分类', trigger: 'blur' }
-        ],
-        files: [
-          { required: true, message: '请添加照片', trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请输入相片名称', trigger: 'blur' }],
+        type: [{ validator: validateArray, message: '请选择相片分类', trigger: 'blur' }],
+        pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }]
       }
     }
   },
 
   methods: {
-
     handleAddPic () {
       let selectedList = this.user.produce
       selectedList.push({
@@ -94,7 +92,7 @@ export default {
     },
 
     submitForm (formName) {
-      console.log(this.user)
+      console.log(this.pic)
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert('submit!')

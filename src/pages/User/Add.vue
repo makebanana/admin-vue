@@ -114,7 +114,6 @@ export default {
   },
 
   methods: {
-
     handleAddPic () {
       let selectedList = this.user.produce
       selectedList.push({
@@ -148,7 +147,6 @@ export default {
       })
     },
 
-    // 重置表单
     resetForm (formName) {
       this.$refs[formName].resetFields()
     }

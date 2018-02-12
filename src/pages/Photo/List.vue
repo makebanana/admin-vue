@@ -115,7 +115,6 @@ export default {
   },
 
   methods: {
-
     _getList () {
       this.$fetch({
         url: '/server/user',

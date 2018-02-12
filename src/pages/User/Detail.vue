@@ -147,7 +147,6 @@ export default {
   },
 
   methods: {
-
     _getUserData () {
       let { id } = this.$tab.params
       this.id = id

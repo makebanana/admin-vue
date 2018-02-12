@@ -25,7 +25,6 @@
 <script>
 import AuthNav from './AuthNav'
 
-// need to do, keep alive tab
 export default {
   name: 'index',
 

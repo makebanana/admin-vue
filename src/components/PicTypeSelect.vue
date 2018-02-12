@@ -51,7 +51,6 @@ export default {
   },
 
   computed: {
-
     produceList () {
       let list = this.$store.state.picType.list
       if (this.selectPic && list.length) {
@@ -66,14 +65,12 @@ export default {
   },
 
   watch: {
-
     selected (value) {
       this.$emit('input', value)
     }
   },
 
   methods: {
-
     _getPicList (typeId) {
       this.$fetch({
         url: 'server/user'
@@ -118,7 +115,6 @@ export default {
   },
 
   created () {
-    console.log(this)
     if (!this.$store.state.picType.isLoad) {
       this.$store.dispatch('getType')
     }

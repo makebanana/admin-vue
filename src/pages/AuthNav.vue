@@ -32,7 +32,6 @@ export default {
   },
 
   methods: {
-
     _getAuthToNav () {
       this.$fetch({ url: '/server/auth' }).then(res => {
         let authData = turnAuthToAllowedAndNav(res.data.auth)
