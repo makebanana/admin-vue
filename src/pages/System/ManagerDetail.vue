@@ -99,8 +99,10 @@ export default {
         url: '/server/manager/' + id
       }).then(res => {
         this.tempManager = {
-          ...res.data.manager,
-          auth: res.data.manager.auth.map(auth => auth._id)
+          name: res.data.manager.name,
+          mobile: res.data.manager.mobile,
+          auth: res.data.manager.auth.map(auth => auth._id),
+          password: ''
         }
         this.manager = {
           ...res.data.manager,
@@ -161,8 +163,8 @@ export default {
         if (!valid) { return false }
 
         const data = {
-          password: md5(this.tempManager.password),
-          ...this.tempManager
+          ...this.tempManager,
+          password: md5(this.tempManager.password)
         }
         this.$fetch({
           url: '/server/manager/' + this.id,

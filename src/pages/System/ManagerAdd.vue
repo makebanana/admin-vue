@@ -111,8 +111,8 @@ export default {
         if (!valid) { return false }
 
         const data = {
-          password: md5(this.manager.password),
-          ...this.manager
+          ...this.manager,
+          password: md5(this.manager.password)
         }
         this.$fetch({
           url: '/server/manager',
@@ -120,8 +120,8 @@ export default {
           data: data
         }).then(res => {
           this.$tab.close()
-          this.$tab.reload('/manager')
           this.$tab.open('/manager')
+          this.$tab.reload('/manager')
         })
       })
     },

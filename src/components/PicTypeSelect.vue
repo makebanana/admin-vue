@@ -1,4 +1,4 @@
-<template>
+     <template>
   <el-cascader
     @active-item-change="handleItemChange"
     @change="handleChange"
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import deepClone from '@/util/deepClone'
 export default {
   name: 'PicTypeSelect',
 
@@ -40,7 +41,7 @@ export default {
   data () {
     return {
       props: {
-        value: 'id'
+        value: '_id'
       },
       selected: [],
       picObj: {
@@ -52,7 +53,7 @@ export default {
 
   computed: {
     produceList () {
-      let list = this.$store.state.picType.list
+      let list = deepClone(this.$store.state.picType.list)
       if (this.selectPic && list.length) {
         list.forEach(a => {
           a.children.forEach(b => {

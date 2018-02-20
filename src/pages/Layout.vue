@@ -42,7 +42,7 @@ export default {
     // 退出管理系统
     handleHeaderCommand () {
       this.$store.commit('userLogout')
-      this.$router.push({ name: 'login' })
+      location.href = '/'
     }
   }
 }

@@ -61,8 +61,8 @@ export default {
       dialogImageUrl: '',
       rules: {
         name: [{ required: true, message: '请输入相片名称', trigger: 'blur' }],
-        type: [{ validator: validateArray, message: '请选择相片分类', trigger: 'blur' }],
-        pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }]
+        // pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }],
+        type: [{ validator: validateArray, message: '请选择相片分类', trigger: 'blur' }]
       }
     }
   },
@@ -92,14 +92,18 @@ export default {
     },
 
     submitForm (formName) {
-      console.log(this.pic)
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        if (!valid) { return false }
+
+        this.$fetch({
+          url: '/server/photo',
+          type: 'POST',
+          data: this.pic
+        }).then(res => {
+          this.$tab.close()
+          this.$tab.open('/photo/list')
+          this.$tab.reload('/photo/list')
+        })
       })
     },
 
