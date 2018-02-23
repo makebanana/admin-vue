@@ -68,16 +68,6 @@ export default {
   },
 
   methods: {
-    handleAddPic () {
-      let selectedList = this.user.produce
-      selectedList.push({
-        id: [],
-        time: ''
-      })
-
-      this.user.produce = selectedList
-    },
-
     handleUploaded (response, file, fileList) {
       console.log(response, file, fileList)
     },
