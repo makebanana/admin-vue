@@ -12,8 +12,9 @@
       </el-form-item>
       <el-form-item label="相片" prop="pictures">
         <el-upload
-          action="/api/upload"
+          action="/server/upload"
           list-type="picture-card"
+          name="files"
           multiple
           accept="/image/*"
           :on-success="handleUploaded"
