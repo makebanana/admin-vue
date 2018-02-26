@@ -68,6 +68,10 @@ export default {
   watch: {
     selected (value) {
       this.$emit('input', value)
+    },
+
+    value (value) {
+      this.selected = value
     }
   },
 
