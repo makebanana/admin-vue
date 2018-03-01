@@ -17,7 +17,9 @@
           name="files"
           multiple
           accept="/image/*"
+          :file-list="pic.pictures"
           :on-success="handleUploaded"
+          :on-error="handleUploadError"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemovePic">
           <i class="el-icon-plus"></i>
@@ -70,11 +72,24 @@ export default {
 
   methods: {
     handleUploaded (response, file, fileList) {
-      console.log(response, file, fileList)
+      if (response.code === 200) {
+        const { id, path } = response.data
+        this.pic.pictures.push({
+          id,
+          url: path
+        })
+      }
+    },
+
+    handleUploadError () {
+      this.$message({
+        type: 'error',
+        message: '上传出错, 请重试'
+      })
     },
 
     handleRemovePic (file, fileList) {
-      console.log(file, fileList)
+      this.pic.pictures = fileList
     },
 
     handlePictureCardPreview (file) {
@@ -89,7 +104,10 @@ export default {
         this.$fetch({
           url: '/server/photo',
           type: 'POST',
-          data: this.pic
+          data: {
+            ...this.pic,
+            pictures: this.pic.pictures.map(item => item.id)
+          }
         }).then(res => {
           this.$tab.close()
           this.$tab.open('/photo/list')
