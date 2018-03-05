@@ -27,7 +27,7 @@
           <el-radio-button label="qt">其他</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="拍摄记录" prop="produce">
+      <el-form-item required label="拍摄记录" prop="produce">
         <div class="produce-box" v-for="(pic, index) in user.produce">
           <PicTypeSelect v-model="pic.id" selectPic/>
           <el-date-picker

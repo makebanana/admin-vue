@@ -4,13 +4,13 @@
       <el-form-item label="名称" prop="name">
         <el-input  v-model="pic.name" placeholder="请输入用户名称"></el-input>
       </el-form-item>
-      <el-form-item label="分类" prop="type">
+      <el-form-item required label="分类" prop="type">
         <PicTypeSelect v-model="pic.type" />
       </el-form-item>
       <el-form-item label="简介" prop="intro">
         <el-input type="textarea" v-model="pic.intro" placeholder="相片简介"></el-input>
       </el-form-item>
-      <el-form-item label="相片" prop="pictures">
+      <el-form-item required label="相片" prop="pictures">
         <el-upload
           action="/server/upload"
           list-type="picture-card"
@@ -64,7 +64,7 @@ export default {
       dialogImageUrl: '',
       rules: {
         name: [{ required: true, message: '请输入相片名称', trigger: 'blur' }],
-        // pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }],
+        pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }],
         type: [{ validator: validateArray, message: '请选择相片分类', trigger: 'blur' }]
       }
     }

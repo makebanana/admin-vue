@@ -36,7 +36,11 @@
       style="width: 100%">
       <el-table-column
         prop="cover"
+        width="100"
         label="相片">
+        <template slot-scope="scope">
+          <img class="photo-list-cover" :src="scope.row.cover + '?x-oss-process=style/list'" alt=""/>
+        </template>
       </el-table-column>
       <el-table-column
         prop="name"
@@ -195,3 +199,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.photo-list-cover{
+  width: 80px;
+  height: 80px;
+  border: 1px solid #ddd;
+}
+</style>
