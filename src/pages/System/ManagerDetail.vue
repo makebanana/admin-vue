@@ -83,24 +83,15 @@ export default {
       authList: [],
       isEdit: false,
       rules: {
-        name: [
-          { required: true, message: '请输入客户名称', trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, validator: validateMobile, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
-        ],
-        auth: [
-          { required: true, validator: validateAuth, trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请输入客户名称', trigger: 'blur' }],
+        mobile: [{ required: true, validator: validateMobile, trigger: 'blur' }],
+        password: [{ required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+        auth: [{ required: true, validator: validateAuth, trigger: 'blur' }]
       }
     }
   },
 
   methods: {
-
     _getDetail () {
       let { id } = this.$tab.params
       this.id = id
@@ -108,8 +99,10 @@ export default {
         url: '/server/manager/' + id
       }).then(res => {
         this.tempManager = {
-          ...res.data.manager,
-          auth: res.data.manager.auth.map(auth => auth._id)
+          name: res.data.manager.name,
+          mobile: res.data.manager.mobile,
+          auth: res.data.manager.auth.map(auth => auth._id),
+          password: ''
         }
         this.manager = {
           ...res.data.manager,
@@ -170,8 +163,8 @@ export default {
         if (!valid) { return false }
 
         const data = {
-          password: md5(this.tempManager.password),
-          ...this.tempManager
+          ...this.tempManager,
+          password: md5(this.tempManager.password)
         }
         this.$fetch({
           url: '/server/manager/' + this.id,

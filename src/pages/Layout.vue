@@ -25,7 +25,6 @@
 <script>
 import AuthNav from './AuthNav'
 
-// need to do, keep alive tab
 export default {
   name: 'index',
 
@@ -43,7 +42,7 @@ export default {
     // 退出管理系统
     handleHeaderCommand () {
       this.$store.commit('userLogout')
-      this.$router.push({ name: 'login' })
+      location.href = '/'
     }
   }
 }

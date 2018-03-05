@@ -65,24 +65,15 @@ export default {
       },
       authList: [],
       rules: {
-        name: [
-          { required: true, message: '请输入客户名称', trigger: 'blur' }
-        ],
-        mobile: [
-          { required: true, validator: validateMobile, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
-        ],
-        auth: [
-          { required: true, validator: validateAuth, trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请输入客户名称', trigger: 'blur' }],
+        mobile: [{ required: true, validator: validateMobile, trigger: 'blur' }],
+        password: [{ required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+        auth: [{ required: true, validator: validateAuth, trigger: 'blur' }]
       }
     }
   },
 
   methods: {
-
     _getAuthList () {
       this.$fetch({
         url: '/server/auth/list'
@@ -120,8 +111,8 @@ export default {
         if (!valid) { return false }
 
         const data = {
-          password: md5(this.manager.password),
-          ...this.manager
+          ...this.manager,
+          password: md5(this.manager.password)
         }
         this.$fetch({
           url: '/server/manager',
@@ -129,13 +120,12 @@ export default {
           data: data
         }).then(res => {
           this.$tab.close()
-          this.$tab.reload('/manager')
           this.$tab.open('/manager')
+          this.$tab.reload('/manager')
         })
       })
     },
 
-    // 重置表单
     resetForm (formName) {
       this.authList.forEach(item => {
         item.checked = false

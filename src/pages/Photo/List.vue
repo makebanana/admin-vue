@@ -10,7 +10,10 @@
           v-model="search.key">
           <template slot="prepend">名称</template>
         </el-input>
-        <PicTypeSelect class="select-item" change-on-select v-model="search.tid"></PicTypeSelect>
+        <PicTypeSelect
+          class="select-item"
+          change-on-select
+          v-model="search.tid"></PicTypeSelect>
         <el-button
           class="top-searct-submit"
           type="primary"
@@ -27,13 +30,17 @@
       </el-col>
     </el-row>
     <el-table
-      :data="userList"
+      :data="photos"
       stripe
       @sort-change="handleSortList"
       style="width: 100%">
       <el-table-column
         prop="cover"
+        width="100"
         label="相片">
+        <template slot-scope="scope">
+          <img class="photo-list-cover" :src="scope.row.cover + '?x-oss-process=style/list'" alt=""/>
+        </template>
       </el-table-column>
       <el-table-column
         prop="name"
@@ -52,10 +59,6 @@
         prop="createTime"
         sortable="custom"
         label="创建时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop="remark"
@@ -96,36 +99,31 @@ export default {
 
   data () {
     return {
-      userList: [],
+      photos: [],
       recordTotal: 0,
       search: {
         tid: [],
-        key: '',
-        from: ''
+        key: ''
       },
       ajaxData: {
         pageNo: 1,
         pageSize: 10,
-        searchType: '0',
+        tid: '',
         key: '',
-        from: '',
         sort: ''
       }
     }
   },
 
   methods: {
-
     _getList () {
       this.$fetch({
-        url: '/server/user',
+        url: '/server/photo',
         data: this.ajaxData
       }).then(res => {
-        this.userList = res.data.userList
+        this.photos = res.data.photos
         this.recordTotal = res.data.recordTotal
         this.ajaxData.page = res.data.pageNo
-      }).catch(err => {
-        console.log('npm run fulldev，不可能出现哈哈哈' + err)
       })
     },
 
@@ -168,20 +166,26 @@ export default {
       this.search.tid = []
     },
 
-    handleLookDetail ({ id }) {
-      this.$tab.open('/user/' + id)
+    handleLookDetail ({ _id }) {
+      this.$tab.open('/photo/' + _id)
     },
 
-    handleDel ({ name, id }) {
+    handleDel ({ name, _id }) {
       this.$confirm(`确定要删除 ${name}?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        return this.$fetch({
+          url: '/server/photo/' + _id,
+          type: 'DELETE'
+        })
+      }).then(() => {
         this.$message({
           type: 'success',
           message: '删除成功!'
         })
+        this.$tab.reload()
       })
     },
 
@@ -195,3 +199,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.photo-list-cover{
+  width: 80px;
+  height: 80px;
+  border: 1px solid #ddd;
+}
+</style>

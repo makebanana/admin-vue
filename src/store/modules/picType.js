@@ -74,9 +74,10 @@ const picType = {
         }
       }).then(res => {
         commit('add', {
-          id: res.data.id,
           label,
           parentId,
+          id: res.data.id,
+          _id: res.data._id,
           count: 0
         })
       })

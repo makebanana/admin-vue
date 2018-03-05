@@ -46,23 +46,7 @@ export default {
   },
 
   methods: {
-    onSubmit (loginForm) {
-      this.isloading = true
-      this.$refs[loginForm].validate((valid) => {
-        if (valid) {
-          this.userLogin()
-        } else {
-          this.isloading = false
-          return false
-        }
-      })
-    },
-
-    updateUserAuth (cb) {
-      this.$store.dispatch('updateAuthAsync', cb)
-    },
-
-    userLogin () {
+    _login () {
       this.$fetch({
         url: '/server/login',
         type: 'post',
@@ -72,7 +56,7 @@ export default {
         }
       }).then(res => {
         this.isloading = false
-        sessionStorage.setItem('V_accessToken', res.data.authorization)
+        sessionStorage.setItem('V_accessToken', `Bearer ${res.data.authorization}`)
         sessionStorage.setItem('V_userId', res.data.userId)
         this.$notify.success({
           title: '登录成功',
@@ -82,6 +66,18 @@ export default {
         this.$router.push({ path: '/' })
       }).catch(_ => {
         this.isloading = false
+      })
+    },
+
+    onSubmit (loginForm) {
+      this.isloading = true
+      this.$refs[loginForm].validate((valid) => {
+        if (valid) {
+          this._login()
+        } else {
+          this.isloading = false
+          return false
+        }
       })
     }
   }

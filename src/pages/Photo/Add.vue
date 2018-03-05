@@ -4,27 +4,31 @@
       <el-form-item label="名称" prop="name">
         <el-input  v-model="pic.name" placeholder="请输入用户名称"></el-input>
       </el-form-item>
-      <el-form-item label="分类" prop="type">
-        <PicTypeSelect selectPic v-model="pic.type" />
+      <el-form-item required label="分类" prop="type">
+        <PicTypeSelect v-model="pic.type" />
       </el-form-item>
       <el-form-item label="简介" prop="intro">
         <el-input type="textarea" v-model="pic.intro" placeholder="相片简介"></el-input>
       </el-form-item>
-      <el-form-item label="相片" prop="pictures">
+      <el-form-item required label="相片" prop="pictures">
         <el-upload
-          action="/api/upload"
+          action="/server/upload"
           list-type="picture-card"
+          name="files"
           multiple
           accept="/image/*"
+          :headers="headers"
+          :file-list="pic.pictures"
           :on-success="handleUploaded"
+          :on-error="handleUploadError"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemovePic">
           <i class="el-icon-plus"></i>
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('user')">立即创建</el-button>
-        <el-button @click="resetForm('user')">重置</el-button>
+        <el-button type="primary" @click="submitForm('pic')">立即创建</el-button>
+        <el-button @click="resetForm('pic')">重置</el-button>
       </el-form-item>
     </el-form>
     <el-dialog :visible.sync="dialogVisible">
@@ -45,47 +49,49 @@ export default {
   },
 
   data () {
+    let validateArray = (rule, value, callback) => {
+      if (value.length) {}
+      return value.length ? callback() : callback(new Error(rule.message))
+    }
+
     return {
       pic: {
         name: '',
         type: [],
         intro: '',
-        pictures: ''
+        pictures: []
       },
       dialogVisible: false,
       dialogImageUrl: '',
+      headers: { 'authorization': sessionStorage.getItem('V_accessToken') },
       rules: {
-        name: [
-          { required: true, message: '请输入相片名称', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请选择相片分类', trigger: 'blur' }
-        ],
-        files: [
-          { required: true, message: '请添加照片', trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请输入相片名称', trigger: 'blur' }],
+        pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }],
+        type: [{ validator: validateArray, message: '请选择相片分类', trigger: 'blur' }]
       }
     }
   },
 
   methods: {
-
-    handleAddPic () {
-      let selectedList = this.user.produce
-      selectedList.push({
-        id: [],
-        time: ''
-      })
-
-      this.user.produce = selectedList
+    handleUploaded (response, file, fileList) {
+      if (response.code === 200) {
+        const { id, path } = response.data
+        this.pic.pictures.push({
+          id,
+          url: path
+        })
+      }
     },
 
-    handleUploaded (response, file, fileList) {
-      console.log(response, file, fileList)
+    handleUploadError () {
+      this.$message({
+        type: 'error',
+        message: '上传出错, 请重试'
+      })
     },
 
     handleRemovePic (file, fileList) {
-      console.log(file, fileList)
+      this.pic.pictures = fileList
     },
 
     handlePictureCardPreview (file) {
@@ -94,14 +100,21 @@ export default {
     },
 
     submitForm (formName) {
-      console.log(this.user)
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        if (!valid) { return false }
+
+        this.$fetch({
+          url: '/server/photo',
+          type: 'POST',
+          data: {
+            ...this.pic,
+            pictures: this.pic.pictures.map(item => item.id)
+          }
+        }).then(res => {
+          this.$tab.close()
+          this.$tab.open('/photo/list')
+          this.$tab.reload('/photo/list')
+        })
       })
     },
 

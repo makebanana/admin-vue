@@ -33,7 +33,6 @@ export default {
   },
 
   methods: {
-
     handleUpdateTab () {
       let { demoId, tabQuery } = this
       let queryStr = tabQuery ? tabQuery.indexOf('?') > -1 ? tabQuery : `?${tabQuery}` : ''
@@ -49,10 +48,6 @@ export default {
       this.$tab.unlock()
       this.isLocked = false
     }
-  },
-
-  created () {
-
   }
 }
 </script>
