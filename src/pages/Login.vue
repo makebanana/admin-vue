@@ -56,7 +56,7 @@ export default {
         }
       }).then(res => {
         this.isloading = false
-        sessionStorage.setItem('V_accessToken', res.data.authorization)
+        sessionStorage.setItem('V_accessToken', `Bearer ${res.data.authorization}`)
         sessionStorage.setItem('V_userId', res.data.userId)
         this.$notify.success({
           title: '登录成功',

@@ -17,6 +17,7 @@
           name="files"
           multiple
           accept="/image/*"
+          :headers="headers"
           :file-list="pic.pictures"
           :on-success="handleUploaded"
           :on-error="handleUploadError"
@@ -62,6 +63,7 @@ export default {
       },
       dialogVisible: false,
       dialogImageUrl: '',
+      headers: { 'authorization': sessionStorage.getItem('V_accessToken') },
       rules: {
         name: [{ required: true, message: '请输入相片名称', trigger: 'blur' }],
         pictures: [{ validator: validateArray, message: '请添加照片', trigger: 'blur' }],
