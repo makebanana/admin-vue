@@ -112,8 +112,8 @@ export default {
           }
         }).then(res => {
           this.$tab.close()
-          this.$tab.open('/photo/list')
           this.$tab.reload('/photo/list')
+          this.$tab.open('/photo/list')
         })
       })
     },

@@ -57,7 +57,7 @@ export default {
       if (this.selectPic && list.length) {
         list.forEach(a => {
           a.children.forEach(b => {
-            this.$set(b, 'children', b.id === this.picObj.id ? this.picObj.list : [])
+            this.$set(b, 'children', b._id === this.picObj.id ? this.picObj.list : [])
           })
         })
       }
@@ -78,21 +78,18 @@ export default {
   methods: {
     _getPicList (typeId) {
       this.$fetch({
-        url: 'server/user'
+        url: '/server/photo',
+        data: { tid: typeId }
       }).then(res => {
-        res.data.userList.forEach(item => {
+        res.data.photos.forEach(item => {
           item.label = item.name
         })
 
-        this.upDateSelect({
+        this.picObj = {
           id: typeId,
-          list: res.data.userList
-        })
+          list: res.data.photos
+        }
       })
-    },
-
-    upDateSelect (obj) {
-      this.picObj = obj
     },
 
     handleItemChange (item) {

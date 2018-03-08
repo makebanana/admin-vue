@@ -27,13 +27,13 @@
           <el-radio-button label="qt">其他</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item required label="拍摄记录" prop="produce">
-        <div class="produce-box" v-for="(pic, index) in user.produce">
+      <el-form-item required label="拍摄记录" prop="playList">
+        <div class="produce-box" v-for="(pic, index) in user.playList">
           <PicTypeSelect v-model="pic.id" selectPic/>
           <el-date-picker
             type="datetime"
             placeholder="拍摄时间"
-            v-model="pic.time"
+            v-model="pic.createTime"
             format="yyyy-MM-dd HH:mm">
           </el-date-picker>
           <div class="control-box">
@@ -75,7 +75,7 @@ export default {
     }
 
     let validateProduce = (rule, value, callback) => {
-      let noEmpty = value.filter(item => item.id.length && item.time)
+      let noEmpty = value.filter(item => item.id.length && item.createTime)
       if (noEmpty.length !== value.length) {
         callback(new Error('请选择完整的拍摄相片以及拍摄时间'))
       } else {
@@ -91,10 +91,10 @@ export default {
         sex: 'woman',
         birth: '',
         from: 'wx',
-        produce: [
+        playList: [
           {
             id: [],
-            time: ''
+            createTime: ''
           }
         ],
         remark: ''
@@ -115,35 +115,41 @@ export default {
 
   methods: {
     handleAddPic () {
-      let selectedList = this.user.produce
-      selectedList.push({
+      this.user.playList.push({
         id: [],
-        time: ''
+        createTime: ''
       })
-
-      this.user.produce = selectedList
     },
 
     handleRemovePic (index) {
-      if (this.user.produce.length === 1) {
+      if (this.user.playList.length === 1) {
         this.$message('至少填写一条记录')
         return
       }
-      let selectedList = this.user.produce
 
-      selectedList.splice(index, 1)
-      this.selectedList = selectedList
+      this.user.playList.splice(index, 1)
     },
 
     submitForm (formName) {
-      console.log(this.user)
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+        if (!valid) { return false }
+
+        this.$fetch({
+          url: '/server/customer',
+          type: 'POST',
+          data: {
+            ...this.user,
+            playList: this.user.playList.map(({ id: [ta, tb, pa], createTime }) => ({
+              type: [ta, tb],
+              photo: pa,
+              createTime
+            }))
+          }
+        }).then(res => {
+          this.$tab.close()
+          this.$tab.reload('/user/list')
+          this.$tab.open('/user/list')
+        })
       })
     },
 

@@ -49,13 +49,16 @@
         label="手机号码">
       </el-table-column>
       <el-table-column
-        prop="mobile"
+        prop="wechat"
         label="微信号">
       </el-table-column>
       <el-table-column
-        prop="pics"
+        prop="playList"
         sortable="custom"
-        label="拍摄记录">
+        label="拍摄次数">
+        <template slot-scope="scope">
+          {{ scope.row.playList.length }}
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -64,6 +67,13 @@
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="from"
+        label="来源">
+        <template slot-scope="scope">
+          {{ scope.row.from | returnFrom }}
         </template>
       </el-table-column>
       <el-table-column
@@ -172,16 +182,22 @@ export default {
       this.$tab.open('/user/' + id)
     },
 
-    handleDel ({ name, id }) {
+    handleDel ({ name, _id }) {
       this.$confirm(`确定要删除 ${name}?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        return this.$fetch({
+          url: '/server/customer/' + _id,
+          type: 'DELETE'
+        })
+      }).then(() => {
         this.$message({
           type: 'success',
           message: '删除成功!'
         })
+        this._getList()
       })
     },
 

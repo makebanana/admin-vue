@@ -185,7 +185,7 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
-        this.$tab.reload()
+        this._getList()
       })
     },
 

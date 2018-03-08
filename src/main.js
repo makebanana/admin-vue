@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import filters from './util/filters'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './theme/global.scss'
@@ -14,10 +15,14 @@ import pathTab from './tab/index'
 Vue.prototype.$fetch = fetch
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+Object.keys(filters).forEach(filter => {
+  Vue.filter(filter, filters[filter])
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  filters,
   router,
   store,
   pathTab,
