@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Loading, MessageBox, Notification } from 'element-ui'
+import store from '../store/index'
 const loadingOption = {
   target: '.main-wrap',
   text: '加载中...'
@@ -10,12 +11,15 @@ export default function fetch (options) {
   let completeCb = options.completeCb || function loadingEnd () { loadingInstance.close() }
   return new Promise((resolve, reject) => {
     let instance = axios.create({
-      timeout: 4000,
+      timeout: options.timeout || 4000,
       headers: {
+        Accept: 'application/json',
         'authorization': sessionStorage.getItem('V_accessToken'),
-        'Content-Type': options.contentType ? options.contentType : 'application/json'
+        'Content-Type': options.data instanceof FormData ? 'multipart/form-data' : 'application/json',
+        ...options.headers
       }
     })
+
     /**
     * 拦截器
     */
@@ -47,19 +51,14 @@ export default function fetch (options) {
       }
 
       if (returnCode === 401) {
-        // 删除用户token
-        sessionStorage.removeItem('V_accessToken')
-        sessionStorage.removeItem('V_userId')
-        sessionStorage.removeItem('V_auth')
+        store.commit('userLogout')
 
         MessageBox.alert({
           title: '提示',
           message: '用户信息过期,点击确认重新登录',
           type: 'error',
           callback: (action) => {
-            if (action.confrim) {
-              // store设置用户未登录
-            }
+            location.href = '/login'
           }
         })
         return

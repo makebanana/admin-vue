@@ -17,10 +17,8 @@
           name="files"
           multiple
           accept="/image/*"
-          :headers="headers"
           :file-list="pic.pictures"
-          :on-success="handleUploaded"
-          :on-error="handleUploadError"
+          :http-request="handleUploaded"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemovePic">
           <i class="el-icon-plus"></i>
@@ -73,20 +71,21 @@ export default {
   },
 
   methods: {
-    handleUploaded (response, file, fileList) {
-      if (response.code === 200) {
-        const { id, path } = response.data
+    handleUploaded (data) {
+      const imgData = new FormData()
+      imgData.append(data.filename, data.file)
+      this.$fetch({
+        url: data.action,
+        type: 'POST',
+        data: imgData
+      }).then(res => {
+        const { id, path } = res.data
         this.pic.pictures.push({
           id,
           url: path
         })
-      }
-    },
-
-    handleUploadError () {
-      this.$message({
-        type: 'error',
-        message: '上传出错, 请重试'
+      }).catch(_ => {
+        this.pic.pictures = [...this.pic.pictures]
       })
     },
 
