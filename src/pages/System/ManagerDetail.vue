@@ -85,7 +85,7 @@ export default {
       rules: {
         name: [{ required: true, message: '请输入客户名称', trigger: 'blur' }],
         mobile: [{ required: true, validator: validateMobile, trigger: 'blur' }],
-        password: [{ required: true, min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
+        password: [{ min: 3, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }],
         auth: [{ required: true, validator: validateAuth, trigger: 'blur' }]
       }
     }
@@ -131,17 +131,20 @@ export default {
     },
 
     _filterChecked () {
+      const tempArr = []
       this.authList.forEach(item => {
         if (item.checked) {
-          this.tempManager.auth.push(item._id)
+          tempArr.push(item._id)
         }
 
         item.children && item.children.forEach(child => {
           if (child.checked) {
-            this.tempManager.auth.push(child._id)
+            tempArr.push(child._id)
           }
         })
       })
+
+      this.tempManager.auth = tempArr
     },
 
     handleOpenAndCloseEdit () {
@@ -164,7 +167,7 @@ export default {
 
         const data = {
           ...this.tempManager,
-          password: md5(this.tempManager.password)
+          password: this.tempManager.password ? md5(this.tempManager.password) : ''
         }
         this.$fetch({
           url: '/server/manager/' + this.id,

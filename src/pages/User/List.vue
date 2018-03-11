@@ -65,8 +65,7 @@
         sortable="custom"
         label="创建时间">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
+          {{scope.row.createTime | returnDate}}
         </template>
       </el-table-column>
       <el-table-column
@@ -178,8 +177,8 @@ export default {
       this.search.from = ''
     },
 
-    handleLookDetail ({ id }) {
-      this.$tab.open('/user/' + id)
+    handleLookDetail ({ _id }) {
+      this.$tab.open('/user/' + _id)
     },
 
     handleDel ({ name, _id }) {

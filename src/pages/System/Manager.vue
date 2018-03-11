@@ -22,11 +22,17 @@
         prop="lastLoginTime"
         sortable="custom"
         label="最后登录">
+        <template slot-scope="scope">
+          {{scope.row.lastLoginTime | returnDate}}
+        </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
         sortable="custom"
         label="创建时间">
+        <template slot-scope="scope">
+          {{scope.row.createTime | returnDate}}
+        </template>
       </el-table-column>
       <el-table-column
         label="操作"

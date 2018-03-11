@@ -53,14 +53,16 @@ export default function fetch (options) {
       if (returnCode === 401) {
         store.commit('userLogout')
 
-        MessageBox.alert({
-          title: '提示',
-          message: '用户信息过期,点击确认重新登录',
-          type: 'error',
-          callback: (action) => {
-            location.href = '/login'
+        MessageBox.alert(
+          '用户信息过期,点击确认重新登录',
+          '提示',
+          {
+            type: 'error',
+            callback: (action) => {
+              location.href = '/login'
+            }
           }
-        })
+        )
         return
       }
 

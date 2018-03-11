@@ -3,12 +3,12 @@
     <el-col :span="10">
       <div v-show="!isEdit" class="user-info">
         <h3>{{user.name}}</h3>
-        <p>手机号: <span>{{user.mobile}}</span></p>
-        <p>微信号: <span>{{user.wechat}}</span></p>
-        <p>性别: <span>{{user.sex}}</span></p>
-        <p>生日: <span>{{user.birth}}</span></p>
-        <p>来源: <span>{{user.from}}</span></p>
-        <p>备注: <span>{{user.remark}}</span></p>
+        <p><span>手机号:</span> {{user.mobile}}</p>
+        <p><span>微信号:</span> {{user.wechat}}</p>
+        <p><span>性别:</span> {{user.sex | returnSex}}</p>
+        <p><span>生日:</span> {{user.birth | returnYMD}}</p>
+        <p><span>来源:</span> {{user.from | returnFrom}}</p>
+        <p><span>备注:</span> {{user.remark}}</p>
         <el-button class="edit-btn" @click="handleOpenAndCloseEdit">编辑</el-button>
       </div>
       <div v-show="isEdit">
@@ -53,53 +53,28 @@
       <div class="user-pic">
         <h3>拍摄记录</h3>
         <div class="selected-box">
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
+          <div class="pic-item" v-for="record in playList">
+            <img :src="record.cover" :alt="record.name">
+            <p>{{record.name}}</p>
+            <p class="time">{{record.createTime | returnDate}}</p>
             <el-button type="danger">移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
-          </div>
-          <div class="pic-item">
-            <img src="ddd" alt="">
-            <p>xxxx</p>
-            <el-button type="danger" >移除</el-button>
           </div>
         </div>
         <div class="produce-box">
-          <PicTypeSelect v-model="addPic.id" selectPic></PicTypeSelect>
-          <el-date-picker
-            type="datetime"
-            placeholder="拍摄时间"
-            v-model="addPic.time"
-            format="yyyy-MM-dd HH:mm">
-          </el-date-picker>
-          <div class="control-box">
-            <el-button type="primary" >提交</el-button>
-          </div>
+          <el-form :model="tempUser" :rules="rules" ref="user" label-width="100px">
+            <el-form-item label-width="0" prop="playList">
+              <PicTypeSelect v-model="addPic.id" selectPic></PicTypeSelect>
+              <el-date-picker
+                type="datetime"
+                placeholder="拍摄时间"
+                v-model="addPic.time"
+                format="yyyy-MM-dd HH:mm">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label-width="0">
+              <el-button type="primary" @click="submitForm('user')">提交</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </el-col>
@@ -129,6 +104,7 @@ export default {
       id: null,
       user: {},
       tempUser: {},
+      playList: [],
       addPic: {
         id: [],
         time: ''
@@ -139,7 +115,6 @@ export default {
           { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: '请输入正确的手机号码', trigger: 'blur' },
           { validator: validateMobile, trigger: 'blur' }
         ]
       }
@@ -151,11 +126,12 @@ export default {
       let { id } = this.$tab.params
       this.id = id
       this.$fetch({
-        url: '/server/user/' + id
+        url: '/server/customer/' + id
       }).then(res => {
-        this.user = res.data.user
-        this.tempUser = res.data.user
-        this.$tab.setTitle(`用户详情: ${res.data.user.name}`)
+        this.user = res.data.customer
+        this.tempUser = res.data.customer
+        this.playList = res.data.customer.playList
+        this.$tab.setTitle(`用户详情: ${res.data.customer.name}`)
       })
     },
 
@@ -164,7 +140,6 @@ export default {
     },
 
     submitForm (formName) {
-      console.log(this.user)
       this.$refs[formName].validate(valid => {
         if (valid) {
           alert('submit!')
@@ -188,14 +163,19 @@ export default {
   width: 400px;
 }
 .user-info{
-  padding: 20px 40px;
+  padding: 20px;
   border: 1px solid #ddd;
 
   p{
     margin: 10px 0 20px;
+    font-weight: bold;
 
     span{
-      font-weight: bold;
+      display: inline-block;
+      margin-right: 20px;
+      width: 60px;
+      font-weight: normal;
+      text-align: right;
     }
   }
 
@@ -211,8 +191,10 @@ export default {
   }
 }
 .user-pic{
-  padding: 20px;
-  min-height: 416px;
+  position: relative;
+  padding: 20px 20px 160px;
+  width: 500px;
+  min-height: 430px;
   border: 1px solid #ddd;
 
   h3{
@@ -222,14 +204,19 @@ export default {
   .selected-box{
     display: flex;
     flex-wrap: wrap;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
 
     .pic-item{
       position: relative;
       margin: 0 10px 10px 0;
       width: 150px;
-      height: 170px;
+      height: 190px;
       border: 1px solid #ddd;
       overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      background-color: #fff;
 
       img{
         display: block;
@@ -238,8 +225,13 @@ export default {
       }
 
       p{
+        padding: 0 4px;
         line-height: 20px;
         border-top: 1px solid #ddd;
+      }
+
+      .time{
+        font-size: 12px;
       }
 
       button{
@@ -260,20 +252,14 @@ export default {
   }
 
   .produce-box{
-    position: relative;
-    margin-bottom: 10px;
+    position: absolute;
+    bottom: 0;
+    padding: 20px 0 0;
+    width: 460px;
+    border-top: 1px solid #ddd;
 
     .take-picker{
       width: 190px;
-    }
-
-    .control-box{
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 40px;
-      line-height: 40px;
-      text-align: right;
     }
   }
 }
