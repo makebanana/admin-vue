@@ -59,7 +59,7 @@ export default function fetch (options) {
           {
             type: 'error',
             callback: (action) => {
-              location.href = '/login'
+              location.href = '/'
             }
           }
         )
