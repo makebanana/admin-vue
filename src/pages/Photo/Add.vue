@@ -47,7 +47,7 @@ export default {
   },
 
   data () {
-    let validateArray = (rule, value, callback) => {
+    const validateArray = (rule, value, callback) => {
       if (value.length) {}
       return value.length ? callback() : callback(new Error(rule.message))
     }
@@ -124,9 +124,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.el-input__inner{
-  width: 190px;
-}
-</style>

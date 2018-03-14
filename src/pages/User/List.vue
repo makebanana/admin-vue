@@ -53,14 +53,6 @@
         label="微信号">
       </el-table-column>
       <el-table-column
-        prop="playList"
-        sortable="custom"
-        label="拍摄次数">
-        <template slot-scope="scope">
-          {{ scope.row.playList.length }}
-        </template>
-      </el-table-column>
-      <el-table-column
         prop="createTime"
         sortable="custom"
         label="创建时间">
@@ -149,10 +141,6 @@ export default {
 
       if (prop === 'createTime') {
         sortCode = order === 'ascending' ? 1 : ''
-      }
-
-      if (prop === 'pics') {
-        sortCode = order === 'ascending' ? 3 : 2
       }
 
       if (sortCode === this.ajaxData.sort) { return }

@@ -12,7 +12,7 @@
         <el-button class="edit-btn" @click="handleOpenAndCloseEdit">编辑</el-button>
       </div>
       <div v-show="isEdit">
-        <el-form :model="tempUser" :rules="rules" ref="user" label-width="100px">
+        <el-form :model="tempUser" :rules="tempUser" ref="user" label-width="100px">
           <el-form-item label="名称" prop="name">
             <el-input  v-model="tempUser.name" placeholder="请输入用户名称"></el-input>
           </el-form-item>
@@ -53,26 +53,32 @@
       <div class="user-pic">
         <h3>拍摄记录</h3>
         <div class="selected-box">
-          <div class="pic-item" v-for="record in playList">
+          <div class="record-item flex-box" v-for="record in playList">
             <img :src="record.cover" :alt="record.name">
-            <p>{{record.name}}</p>
-            <p class="time">{{record.createTime | returnDate}}</p>
-            <el-button type="danger">移除</el-button>
+            <div class="record-info">
+              <p>{{record.name}}</p>
+              <p class="time">{{record.createTime | returnDate}}</p>
+            </div>
+            <el-button @click="handleRmRecord(record._id)" type="danger" size="mini">
+              <i class="el-icon-delete"></i>
+            </el-button>
           </div>
         </div>
         <div class="produce-box">
-          <el-form :model="tempUser" :rules="rules" ref="user" label-width="100px">
-            <el-form-item label-width="0" prop="playList">
+          <el-form :model="addPic" :rules="rules2" ref="record" label-width="100px">
+            <el-form-item label-width="0" prop="id">
               <PicTypeSelect v-model="addPic.id" selectPic></PicTypeSelect>
+            </el-form-item>
+            <el-form-item label-width="0" prop="createTime">
               <el-date-picker
                 type="datetime"
                 placeholder="拍摄时间"
-                v-model="addPic.time"
+                v-model="addPic.createTime"
                 format="yyyy-MM-dd HH:mm">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label-width="0">
-              <el-button type="primary" @click="submitForm('user')">提交</el-button>
+            <el-form-item label-width="0" class="add-btn">
+              <el-button type="primary" @click="handleAddRecord">提交</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -92,9 +98,17 @@ export default {
   },
 
   data () {
-    let validateMobile = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       if (!/^1[34578]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatePhoto = (rule, value, callback) => {
+      if (value.length !== 3) {
+        callback(new Error('请选择拍摄相片'))
       } else {
         callback()
       }
@@ -107,15 +121,23 @@ export default {
       playList: [],
       addPic: {
         id: [],
-        time: ''
+        createTime: null
       },
       isEdit: false,
-      rules: {
+      rules1: {
         name: [
           { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
         mobile: [
           { validator: validateMobile, trigger: 'blur' }
+        ]
+      },
+      rules2: {
+        id: [
+          { validator: validatePhoto, trigger: 'blur' }
+        ],
+        createTime: [
+          { required: true, message: '请选择拍摄时间', trigger: 'blur' }
         ]
       }
     }
@@ -130,8 +152,16 @@ export default {
       }).then(res => {
         this.user = res.data.customer
         this.tempUser = res.data.customer
-        this.playList = res.data.customer.playList
         this.$tab.setTitle(`用户详情: ${res.data.customer.name}`)
+        this._getUserPlayRecord()
+      })
+    },
+
+    _getUserPlayRecord () {
+      this.$fetch({
+        url: `/server/${this.id}/playRecord`
+      }).then(res => {
+        this.playList = res.data.playList
       })
     },
 
@@ -139,14 +169,54 @@ export default {
       this.isEdit = !this.isEdit
     },
 
-    submitForm (formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+    handleEditInfo () {
+      this.$refs['user'].validate(valid => {
+        if (!valid) { return }
+
+        const { id: [ta, tb, photo], createTime } = this.addPic
+        this.$fetch({
+          url: `/server/${this.id}/playRecord`,
+          type: 'POST',
+          data: {
+            type: [ta, tb],
+            photo,
+            createTime
+          }
+        }).then(res => {
+          this.$tab.close()
+          this.$tab.reload('/user/list')
+          this.$tab.open('/user/list')
+        })
+      })
+    },
+
+    handleAddRecord () {
+      this.$refs['record'].validate(valid => {
+        if (!valid) { return }
+
+        const { id: [ta, tb, photo], createTime } = this.addPic
+        this.$fetch({
+          url: `/server/${this.id}/playRecord`,
+          type: 'POST',
+          data: {
+            type: [ta, tb],
+            photo,
+            createTime
+          }
+        }).then(res => {
+          this.addPic.id = []
+          this.addPic.createTime = null
+          this._getUserPlayRecord()
+        })
+      })
+    },
+
+    handleRmRecord (id) {
+      this.$fetch({
+        url: `/server/playRecord/${id}`,
+        type: 'DELETE'
+      }).then(res => {
+        this._getUserPlayRecord()
       })
     }
   },
@@ -157,7 +227,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input-wrap{
   margin: 20px 0;
   width: 400px;
@@ -193,8 +263,8 @@ export default {
 .user-pic{
   position: relative;
   padding: 20px 20px 160px;
-  width: 500px;
-  min-height: 430px;
+  width: 400px;
+  min-height: 416px;
   border: 1px solid #ddd;
 
   h3{
@@ -207,11 +277,11 @@ export default {
     padding-top: 10px;
     border-top: 1px solid #eee;
 
-    .pic-item{
+    .record-item{
       position: relative;
       margin: 0 10px 10px 0;
-      width: 150px;
-      height: 190px;
+      width: 270px;
+      height: 150px;
       border: 1px solid #ddd;
       overflow: hidden;
       border-radius: 4px;
@@ -224,23 +294,38 @@ export default {
         height: 148px;
       }
 
+      .record-info{
+        position: absolute;
+        bottom: 0;
+        right: 2px;
+        width: 114px;
+      }
+
       p{
         padding: 0 4px;
         line-height: 20px;
-        border-top: 1px solid #ddd;
+        word-break: break-all;
       }
 
       .time{
+        margin-top: 4px;
+        border-top: 1px solid #ddd;
         font-size: 12px;
       }
 
       button{
         position: absolute;
-        bottom: 0;
-        transform: translateY(40px);
-        width: 100%;
+        top: 0;
+        right: 0;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        transform: translateY(-40px);
         transition: all .3s;
-        border-radius: 0;
       }
 
       &:hover{
@@ -255,11 +340,13 @@ export default {
     position: absolute;
     bottom: 0;
     padding: 20px 0 0;
-    width: 460px;
+    width: 360px;
     border-top: 1px solid #ddd;
 
-    .take-picker{
-      width: 190px;
+    .add-btn{
+      position: absolute;
+      right: 20px;
+      bottom: 0px;
     }
   }
 }

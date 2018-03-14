@@ -66,7 +66,7 @@ export default {
   },
 
   data () {
-    let validateMobile = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       if (value && !/^1[34578]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
       } else {
@@ -74,7 +74,7 @@ export default {
       }
     }
 
-    let validateProduce = (rule, value, callback) => {
+    const validateProduce = (rule, value, callback) => {
       let noEmpty = value.filter(item => item.id.length && item.createTime)
       if (noEmpty.length !== value.length) {
         callback(new Error('请选择完整的拍摄相片以及拍摄时间'))
@@ -139,9 +139,9 @@ export default {
           type: 'POST',
           data: {
             ...this.user,
-            playList: this.user.playList.map(({ id: [ta, tb, pa], createTime }) => ({
+            playList: this.user.playList.map(({ id: [ta, tb, photo], createTime }) => ({
               type: [ta, tb],
-              photo: pa,
+              photo,
               createTime
             }))
           }
@@ -160,10 +160,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.el-input__inner{
-  width: 190px;
-}
+<style lang="scss" scoped>
 .produce-box{
   position: relative;
   margin-bottom: 10px;

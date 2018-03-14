@@ -44,7 +44,7 @@ export default {
   name: 'ManagerAdd',
 
   data () {
-    let validateMobile = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       if (!/^1[34578]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
       } else {
@@ -52,7 +52,7 @@ export default {
       }
     }
 
-    let validateAuth = (rule, value, callback) => {
+    const validateAuth = (rule, value, callback) => {
       return value.length ? callback() : callback(new Error('请分配权限'))
     }
 
@@ -143,10 +143,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.el-input__inner{
-  width: 190px;
-}
+<style lang="scss" scoped>
 .auth-wrap{
   width: 360px;
 

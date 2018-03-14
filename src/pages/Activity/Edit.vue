@@ -1,12 +1,12 @@
 <template>
-  <div>activeEdit</div>
+  <div>等待小程序</div>
 </template>
 
 <script>
 export default {
-  name: 'activeedit'
+  name: 'ActiveEdit'
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

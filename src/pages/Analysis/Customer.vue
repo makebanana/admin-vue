@@ -1,12 +1,12 @@
 <template>
-  <div>analysisCustomer</div>
+  <div>来源饼图、年龄段饼图、分类</div>
 </template>
 
 <script>
 export default {
-  name: 'analysisCustomer'
+  name: 'AnalysisCustomer'
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

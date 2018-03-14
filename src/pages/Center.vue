@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .link-btn{
   color: #20a0ff;
   text-decoration: underline;
