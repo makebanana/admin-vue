@@ -53,16 +53,18 @@
       <div class="user-pic">
         <h3>拍摄记录</h3>
         <div class="selected-box">
-          <div class="record-item flex-box" v-for="record in playList">
-            <img :src="record.cover" :alt="record.name">
-            <div class="record-info">
-              <p>{{record.name}}</p>
-              <p class="time">{{record.createTime | returnDate}}</p>
+          <transition name="slide-fade">
+            <div class="record-item flex-box" v-for="record in playList">
+              <img :src="record.cover" :alt="record.name">
+              <div class="record-info">
+                <p>{{record.name}}</p>
+                <p class="time">{{record.createTime | returnDate}}</p>
+              </div>
+              <el-button @click="handleRmRecord(record._id)" type="danger" size="mini">
+                <i class="el-icon-delete"></i>
+              </el-button>
             </div>
-            <el-button @click="handleRmRecord(record._id)" type="danger" size="mini">
-              <i class="el-icon-delete"></i>
-            </el-button>
-          </div>
+          </transition>
         </div>
         <div class="produce-box">
           <el-form :model="addPic" :rules="rules2" ref="record" label-width="100px">
@@ -99,8 +101,16 @@ export default {
 
   data () {
     const validateMobile = (rule, value, callback) => {
-      if (!/^1[34578]\d{9}$/.test(value)) {
+      if (!/^1[345678]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
+      } else {
+        callback()
+      }
+    }
+
+    const validateBirth = (rule, value, callback) => {
+      if (Date.now() - new Date(value) < 86400000 * 50) {
+        callback(new Error('请选择正确的生日'))
       } else {
         callback()
       }
@@ -130,6 +140,9 @@ export default {
         ],
         mobile: [
           { validator: validateMobile, trigger: 'blur' }
+        ],
+        birth: [
+          { validator: validateBirth, trigger: 'blur' }
         ]
       },
       rules2: {
@@ -350,5 +363,15 @@ export default {
     }
   }
 }
-
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(100px);
+  opacity: 0;
+}
 </style>

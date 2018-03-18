@@ -67,8 +67,16 @@ export default {
 
   data () {
     const validateMobile = (rule, value, callback) => {
-      if (value && !/^1[34578]\d{9}$/.test(value)) {
+      if (value && !/^1[345678]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
+      } else {
+        callback()
+      }
+    }
+
+    const validateBirth = (rule, value, callback) => {
+      if (Date.now() - new Date(value) < 86400000 * 50) {
+        callback(new Error('请选择正确的生日'))
       } else {
         callback()
       }
@@ -105,6 +113,9 @@ export default {
         ],
         mobile: [
           { validator: validateMobile, trigger: 'blur' }
+        ],
+        birth: [
+          { validator: validateBirth, trigger: 'blur' }
         ],
         produce: [
           { validator: validateProduce, trigger: 'blur' }

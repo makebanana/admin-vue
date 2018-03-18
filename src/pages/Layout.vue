@@ -91,6 +91,7 @@ export default {
     .main-wrap{
       padding: 10px;
       background-color: #ececec;
+      flex-basis: 100%;
 
       .breadcrumb{
         margin-bottom: 10px;

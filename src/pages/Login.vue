@@ -1,21 +1,11 @@
 <template>
   <div class="login-box">
-    <el-form ref="loginForm" :model="form" label-width="80px">
-      <el-form-item
-        label="账号"
-        prop="name"
-       :rules="[
-         { required: true, message: '账号不能为空'},
-       ]">
-        <el-input v-model="form.name" placeholder="请输入账号"></el-input>
+    <el-form ref="loginForm" :model="form" :rule="rule" label-width="80px">
+      <el-form-item label="账号" prop="name">
+        <el-input v-model="form.name" placeholder="请输入账号" class="login-input"></el-input>
       </el-form-item>
-      <el-form-item
-        label="密码"
-        prop="password"
-        :rules="[
-          { required: true, message: '密码不能为空'},
-        ]">
-        <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password" type="password" placeholder="请输入密码" class="login-input"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -41,7 +31,11 @@ export default {
   data () {
     return {
       isloading: false,
-      form: {}
+      form: {},
+      rule: {
+        name: [{required: true, message: '账号不能为空'}],
+        password: [{required: true, message: '密码不能为空'}]
+      }
     }
   },
 
@@ -95,6 +89,10 @@ export default {
     width: 400px;
     height: 250px;
     border: 1px solid #d9d9d9;
+
+    :local(input){
+      width: 100%;
+    }
 
     .login-button{
       width: 200px;

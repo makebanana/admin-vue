@@ -17,6 +17,7 @@
   "dependencies": {
     "ali-oss": "^4.12.2",
     "axios": "^0.17.1",
+    "echarts": "^4.0.4",
     "element-ui": "^2.0.4",
     "js-md5": "^0.7.2",
     "koa-body": "^2.5.0",
@@ -26,6 +27,7 @@
     "koa-session": "^5.7.1",
     "koa-static": "^4.0.2",
     "tracer": "^0.8.11",
+    "v-charts": "^1.16.6",
     "vue": "^2.5.2",
     "vue-path-tab": "^0.0.7",
     "vue-router": "^3.0.1",

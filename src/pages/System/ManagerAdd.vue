@@ -45,7 +45,7 @@ export default {
 
   data () {
     const validateMobile = (rule, value, callback) => {
-      if (!/^1[34578]\d{9}$/.test(value)) {
+      if (!/^1[345678]\d{9}$/.test(value)) {
         callback(new Error('请正确的手机号'))
       } else {
         callback()

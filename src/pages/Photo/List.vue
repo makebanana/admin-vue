@@ -53,7 +53,7 @@
       <el-table-column
         prop="customerCount"
         sortable="custom"
-        label="客户数量">
+        label="拍摄数量">
       </el-table-column>
       <el-table-column
         prop="createTime"
